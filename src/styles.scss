@@ -1,1 +1,110 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use "sass:math";
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@mixin layout-style {
+  $flex-values: (
+    "nogrow": 0 1 auto,
+    "noshrink": 1 0 auto,
+    "none": none
+  );
+
+  $layout-aligns: (
+    "center": (center, center),
+    "center center": (center, center),
+    "start center": (flex-start, center),
+    "end center": (flex-end, center),
+    "space-between center": (space-between, center)
+  );
+
+  [layout],
+  [layout="column"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  [layout="row"] {
+    display: flex;
+    flex-direction: row;
+  }
+
+  [flex] {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+  }
+
+  @each $attr, $flex in $flex-values {
+    [flex="#{$attr}"] {
+      flex: $flex;
+      box-sizing: border-box;
+    }
+  }
+
+  @for $i from 1 through 100 {
+    [flex="#{$i}"] {
+      flex: math.div($i, 100) 1 auto;
+      box-sizing: border-box;
+    }
+  }
+
+  [layout-align] {
+    display: flex;
+  }
+
+  @each $attr, $values in $layout-aligns {
+    $justify: nth($values, 1);
+    $align: nth($values, 2);
+
+    [layout-align="#{$attr}"] {
+      justify-content: $justify;
+      align-items: $align;
+    }
+  }
+
+
+}
+
+@include layout-style;
