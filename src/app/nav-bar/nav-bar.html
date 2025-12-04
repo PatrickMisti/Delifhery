@@ -1,0 +1,32 @@
+
+<div layout class="nav-bar">
+  <div layout class="main-drawer" [class.active]="!navOpen()">
+    <button matIconButton (click)="openNavBar()">
+      @if (navOpen()){
+        <mat-icon>menu</mat-icon>
+      } @else {
+        <mat-icon>menu_open</mat-icon>
+      }
+    </button>
+
+    <div class="button-navi" [class.active]="!navOpen()">
+      <mat-icon>add</mat-icon>
+      <span>Paket versenden</span>
+    </div>
+  </div>
+
+  <div layout>
+    <div class="button-navi" [class.active]="!navOpen()">
+      <mat-icon class="material-symbols-outlined">package_2</mat-icon>
+      <span>Paket übersicht</span>
+    </div>
+    <div class="button-navi" [class.active]="!navOpen()">
+      <mat-icon>calculate</mat-icon>
+      <span>Paketpreis rechner</span>
+    </div>
+    <div class="button-navi" [class.active]="!navOpen()">
+      <mat-icon>analytics</mat-icon>
+      <span>Statistik</span>
+    </div>
+  </div>
+</div>

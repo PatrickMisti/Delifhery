@@ -1,0 +1,8 @@
+{
+  "html.customData": [
+    ".vscode/html-custom-data.json"
+  ],
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
