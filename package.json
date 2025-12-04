@@ -1,6 +1,7 @@
 {
   "name": "delifhery-client",
   "version": "0.0.0",
+  "web-types": "./web-types.json",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

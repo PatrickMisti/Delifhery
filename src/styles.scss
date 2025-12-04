@@ -5,6 +5,18 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @use "sass:math";
+@use "sass:list";
+@use "sass:map";
+
+$typography-content: (
+  padding: (
+    padding-small: 8px,
+    padding-middle: 12px,
+    padding-large: 16px,
+  ),
+  border-radius: 35px
+
+);
 
 html {
   @include mat.theme((
@@ -45,31 +57,59 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-@mixin layout-style {
+/************Layout-Flex-Style*************/
+@mixin layout-position-style {
+  $layout-main: (
+    start: flex-start,
+    center: center,
+    end: flex-end,
+    "space-between": space-between,
+    "space-around": space-around,
+    "space-evenly": space-evenly
+  );
+
+  $layout-cross: (
+    start: flex-start,
+    center: center,
+    end: flex-end,
+    stretch: stretch
+  );
+
+  [layout-align] {
+    display: flex;
+  }
+
+  @each $main-name, $main-val in $layout-main {
+    @each $cross-name, $cross-val in $layout-cross {
+      [layout-align="#{$main-name} #{$cross-name}"] {
+        justify-content: $main-val;
+        align-items: $cross-val;
+      }
+    }
+  }
+
+  [layout-align="center"] {
+    justify-content: center;
+    align-items: center;
+  }
+
+  [layout-align="start"] {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  [layout-align="end"] {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+@mixin flex-style {
   $flex-values: (
     "nogrow": 0 1 auto,
     "noshrink": 1 0 auto,
     "none": none
   );
-
-  $layout-aligns: (
-    "center": (center, center),
-    "center center": (center, center),
-    "start center": (flex-start, center),
-    "end center": (flex-end, center),
-    "space-between center": (space-between, center)
-  );
-
-  [layout],
-  [layout="column"] {
-    display: flex;
-    flex-direction: column;
-  }
-
-  [layout="row"] {
-    display: flex;
-    flex-direction: row;
-  }
 
   [flex] {
     flex: 1 1 auto;
@@ -89,22 +129,108 @@ body {
       box-sizing: border-box;
     }
   }
+}
 
-  [layout-align] {
+@mixin layout-style {
+
+  [layout],
+  [layout="column"] {
     display: flex;
+    flex-direction: column;
   }
 
-  @each $attr, $values in $layout-aligns {
-    $justify: nth($values, 1);
-    $align: nth($values, 2);
+  [layout="row"] {
+    display: flex;
+    flex-direction: row;
+  }
 
-    [layout-align="#{$attr}"] {
-      justify-content: $justify;
-      align-items: $align;
+  @include flex-style;
+  @include layout-position-style;
+}
+
+@include layout-style;
+/************Layout-Flex-Style*************/
+
+/**************NavBar-Style****************/
+app-nav-bar{
+  display: flex;
+  flex: 0 1 auto;
+  width: fit-content;
+  height: 70%;
+}
+
+.nav-bar {
+  $padding: map.get($typography-content, padding);
+  $front-color: white;
+
+  background-color: var(--mat-sys-primary);
+  width: fit-content;
+  margin: map.get($padding, padding-small);
+  border-radius: map.get($typography-content, border-radius);
+
+  > div {
+    padding: map.get($padding, padding-small);
+  }
+
+  button {
+    /*width: 50px;
+    height: 50px;*/
+    color: $front-color;
+    //align-self: center;
+    inline-size: min-content;
+  }
+
+  .main-drawer {
+    color: $front-color;
+    &.active {
+      align-items: center;
     }
   }
 
 
-}
+  mat-icon {
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    align-self: center;
+    font-size: 28px;
+  }
 
-@include layout-style;
+  .button-navi {
+    padding-top: map.get($padding, padding-small);
+    color: $front-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span{
+      font-size: 16px;
+    }
+    span {
+      opacity: 0;
+      transform: translateX(-10px);
+      max-width: 0;
+      overflow: hidden;
+
+      transition:
+        opacity .25s ease,
+        transform .25s ease,
+        max-width .25s ease;
+    }
+
+    &.active {
+      justify-content: flex-start;
+
+      span {
+        padding-left: map.get($padding, padding-small);
+        opacity: 1;
+        transform: translateX(0);
+        max-width: 200px;
+      }
+    }
+  }
+
+}
+/**************NavBar-Style****************/
+
+

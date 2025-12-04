@@ -1,0 +1,74 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "delifhery-flex-layout",
+  "version": "1.0.0",
+  "contributions": {
+    "html": {
+      "attributes": [
+        {
+          "name": "flex",
+          "description": "Custom flex attribute",
+          "value": {
+            "kind": "enum",
+            "items": [
+              "nogrow",
+              "noshrink",
+              "none",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "10",
+              "20",
+              "25",
+              "33",
+              "50",
+              "66",
+              "75",
+              "100"
+            ]
+          }
+        },
+        {
+          "name": "layout-align",
+          "description": "Flex alignment (main cross)",
+          "value": {
+            "kind": "enum",
+            "items": [
+              "start start",
+              "start center",
+              "start end",
+              "start stretch",
+
+              "center start",
+              "center center",
+              "center end",
+              "center stretch",
+
+              "end start",
+              "end center",
+              "end end",
+              "end stretch",
+
+              "space-between start",
+              "space-between center",
+              "space-between end",
+              "space-between stretch",
+
+              "space-around start",
+              "space-around center",
+              "space-around end",
+              "space-around stretch",
+
+              "space-evenly start",
+              "space-evenly center",
+              "space-evenly end",
+              "space-evenly stretch"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
