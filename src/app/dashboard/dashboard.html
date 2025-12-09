@@ -10,9 +10,23 @@
     </button>
     <span>My App</span>
     <span class="example-spacer"></span>
-    <button matIconButton aria-label="user login menu">
+    <button matIconButton [matMenuTriggerFor]="menu" aria-label="user login menu">
       <mat-icon>account_circle</mat-icon>
     </button>
+    <mat-menu #menu>
+      <button mat-menu-item (click)="setDarkMode()">
+        @if (isDarkMode()) {
+          <mat-icon>light_mode</mat-icon>
+        } @else {
+          <mat-icon>mode_night</mat-icon>
+        }
+        <span>Theme</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </button>
+    </mat-menu>
   </mat-toolbar>
 
   <mat-sidenav-container hasBackdrop="false">

@@ -10,6 +10,7 @@ import {
   MatSidenavContainer, MatSidenavContent
 } from '@angular/material/sidenav';
 import {MatListItem, MatListItemIcon, MatNavList} from '@angular/material/list';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 export const MATERIAL_BASICS = [
   MatIcon,
@@ -33,6 +34,10 @@ export const MATERIAL_NAVBAR = [
   MatDrawerContent,
   MatNavList,
   MatSidenavContent,
-  MatListItemIcon
+  MatListItemIcon,
+
+  MatMenu,
+  MatMenuTrigger,
+  MatMenuItem
 
 ];

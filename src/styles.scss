@@ -19,15 +19,31 @@ $typography-content: (
   border-radius: 35px
 );
 
+$light-theme: (
+  color: (
+    primary: mat.$cyan-palette,
+    tertiary: mat.$orange-palette,
+  ),
+  typography: Roboto,
+  density: 0,
+);
+
+$dark-theme: (
+  color: (
+    primary: mat.$cyan-palette,
+    tertiary: mat.$orange-palette,
+    theme-type: dark,
+  ),
+  typography: Roboto,
+  density: 0,
+);
+
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$cyan-palette,
-      tertiary: mat.$orange-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme($light-theme);
+}
+
+html.dark-theme {
+  @include mat.theme($dark-theme);
 }
 
 body {
@@ -157,12 +173,31 @@ body {
 
 @include layout-style;
 /************Layout-Flex-Style*************/
+/**************Icon-Button-Style****************/
+@mixin button-style {
+  button {
+    &:hover {
+      background-color: var(--mat-sys-surface-dim);
+      opacity: 0.6;
+      mat-icon {
+        color: var(--mat-sys-primary) !important;
+      }
+    }
+
+    mat-icon {
+      color: var(--mat-sys-primary-container) !important;
+    }
+  }
+}
+
+/**************Icon-Button-Style****************/
 
 /************Toolbar-Style*************/
 mat-toolbar {
   background: var(--mat-sys-primary) !important;
   color: var(--mat-sys-primary-container) !important;
   //border-radius: var(--mat-sys-corner-extra-large);
+  @include button-style;
 }
 /************Toolbar-Style*************/
 
@@ -243,22 +278,15 @@ mat-sidenav-content {
   }
 }
 /**************NavBar-Style****************/
-/**************Icon-Button-Style****************/
-button {
-  &:hover {
-    background-color: var(--mat-sys-surface-dim);
-    opacity: 0.6;
-    mat-icon {
-      color: var(--mat-sys-primary) !important;
-    }
-  }
+/**************Menu-Style****************/
 
-  mat-icon {
-    color: var(--mat-sys-primary-container) !important;
-  }
-}
+@include mat.menu-overrides((
+  container-color: var(--mat-sys-secondary),
+  item-label-text-color: var(--mat-sys-secondary-container),
+  item-icon-color: var(--mat-sys-on-secondary),
+));
 
-/**************Icon-Button-Style****************/
+/**************Menu-Style****************/
 
 .test {
   position: absolute;
