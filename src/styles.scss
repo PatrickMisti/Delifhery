@@ -173,35 +173,46 @@ body {
 
 @include layout-style;
 /************Layout-Flex-Style*************/
+
 /**************Icon-Button-Style****************/
-@mixin button-style {
-  button {
-    &:hover {
-      background-color: var(--mat-sys-surface-dim);
-      opacity: 0.6;
-      mat-icon {
-        color: var(--mat-sys-primary) !important;
-      }
-    }
-
-    mat-icon {
-      color: var(--mat-sys-primary-container) !important;
-    }
-  }
-}
-
+@include mat.icon-button-overrides((
+  icon-color: var(--mat-sys-secondary-container),
+  ripple-color: var(--mat-sys-primary),
+  state-layer-color: var(--mat-sys-primary-container),
+));
 /**************Icon-Button-Style****************/
 
 /************Toolbar-Style*************/
-mat-toolbar {
-  background: var(--mat-sys-primary) !important;
-  color: var(--mat-sys-primary-container) !important;
-  //border-radius: var(--mat-sys-corner-extra-large);
-  @include button-style;
-}
+@include mat.toolbar-overrides((
+  container-background-color: var(--mat-sys-primary),
+  container-text-color: var(--mat-sys-secondary-container),
+));
 /************Toolbar-Style*************/
+
+/**************Menu-Style****************/
+@include mat.menu-overrides((
+  container-color: var(--mat-sys-secondary),
+  item-label-text-color: var(--mat-sys-secondary-container),
+  item-icon-color: var(--mat-sys-on-secondary),
+));
+/**************Menu-Style****************/
 
 /**************NavBar-Style****************/
+
+@include mat.sidenav-overrides((
+  container-background-color: var(--mat-sys-secondary),
+  container-elevation-shadow: var(--mat-sys-level2)
+));
+
+@include mat.list-overrides((
+  list-item-label-text-color: var(--mat-sys-secondary-container),
+  list-item-leading-icon-color: var(--mat-sys-secondary-container),
+  list-item-hover-leading-icon-color: var(--mat-sys-primary-container),
+  list-item-hover-label-text-color: var(--mat-sys-primary-container),
+  list-item-hover-state-layer-color: var(--mat-sys-secondary-container),
+  list-item-hover-state-layer-opacity: .12,
+));
+
 .nav-bar {
   display: none !important;
 }
@@ -212,7 +223,6 @@ mat-sidenav-container {
   mat-sidenav {
     margin: 8px 0 8px 0;
     width: auto !important;
-    background-color: var(--mat-sys-primary) !important;
     padding: 8px;
 
     &:hover {
@@ -227,23 +237,7 @@ mat-sidenav-container {
       justify-content: center;
       padding-right: 0 !important;
 
-      &:hover {
-        background-color: var(--mat-sys-surface-dim);
-        opacity: 0.6;
-        box-shadow: var(--mat-sys-level2);
-
-        span,
-        mat-icon {
-          color: var(--mat-sys-primary) !important;
-        }
-      }
-
-      mat-icon {
-        color: var(--mat-sys-primary-container) !important;
-      }
-
       span {
-        color: var(--mat-sys-primary-container) !important;
         padding-right: 8px;
         display: none;
       }
@@ -278,15 +272,6 @@ mat-sidenav-content {
   }
 }
 /**************NavBar-Style****************/
-/**************Menu-Style****************/
-
-@include mat.menu-overrides((
-  container-color: var(--mat-sys-secondary),
-  item-label-text-color: var(--mat-sys-secondary-container),
-  item-icon-color: var(--mat-sys-on-secondary),
-));
-
-/**************Menu-Style****************/
 
 .test {
   position: absolute;
