@@ -1,11 +1,45 @@
 
+<div class="main-frame">
+  <mat-toolbar layout-align="space-between center">
+    <button (click)="toggleDrawer()" matIconButton aria-label="menu bar" class="nav-bar">
+      @if (isOpenDrawer()) {
+        <mat-icon>menu_open</mat-icon>
+      } @else {
+        <mat-icon>menu</mat-icon>
+      }
+    </button>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button matIconButton aria-label="user login menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </mat-toolbar>
 
-<mat-toolbar layout-align="space-between center">
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button matIconButton aria-label="user login menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-</mat-toolbar>
-
-<app-nav-bar></app-nav-bar>
+  <mat-sidenav-container hasBackdrop="false">
+    <mat-sidenav mode="over" opened [ngClass]="isOpenDrawer() ? 'active' : ''">
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon matListItemIcon>add</mat-icon>
+          <span>Add</span>
+        </mat-list-item>
+      </mat-nav-list>
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon matListItemIcon class="material-symbols-outlined">package_2</mat-icon>
+          <span>Paket übersicht</span>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListItemIcon>calculate</mat-icon>
+          <span>Paketpreis rechner</span>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListItemIcon>analytics</mat-icon>
+          <span>Statistik</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="test"></div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

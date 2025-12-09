@@ -8,6 +8,8 @@
 @use "sass:list";
 @use "sass:map";
 
+$breakpoint-md: 768px;
+
 $typography-content: (
   padding: (
     padding-small: 8px,
@@ -15,14 +17,13 @@ $typography-content: (
     padding-large: 16px,
   ),
   border-radius: 35px
-
 );
 
 html {
   @include mat.theme((
     color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$orange-palette,
     ),
     typography: Roboto,
     density: 0,
@@ -55,6 +56,12 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.main-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /************Layout-Flex-Style*************/
@@ -151,86 +158,112 @@ body {
 @include layout-style;
 /************Layout-Flex-Style*************/
 
+/************Toolbar-Style*************/
+mat-toolbar {
+  background: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-primary-container) !important;
+  //border-radius: var(--mat-sys-corner-extra-large);
+}
+/************Toolbar-Style*************/
+
 /**************NavBar-Style****************/
-app-nav-bar{
-  display: flex;
-  flex: 0 1 auto;
-  width: fit-content;
-  height: 70%;
+.nav-bar {
+  display: none !important;
 }
 
-.nav-bar {
-  $padding: map.get($typography-content, padding);
-  $front-color: white;
+mat-sidenav-container {
+  flex: 1 1 auto;
 
-  background-color: var(--mat-sys-primary);
-  width: fit-content;
-  margin: map.get($padding, padding-small);
-  border-radius: map.get($typography-content, border-radius);
+  mat-sidenav {
+    margin: 8px 0 8px 0;
+    width: auto !important;
+    background-color: var(--mat-sys-primary) !important;
+    padding: 8px;
 
-  > div {
-    padding: map.get($padding, padding-small);
-  }
+    &:hover {
+      span {
+        display: unset;
+      }
+    }
 
-  button {
-    /*width: 50px;
-    height: 50px;*/
-    color: $front-color;
-    //align-self: center;
-    inline-size: min-content;
-  }
-
-  .main-drawer {
-    color: $front-color;
-    &.active {
+    mat-list-item {
+      display: flex;
       align-items: center;
-    }
-  }
+      justify-content: center;
+      padding-right: 0 !important;
 
+      &:hover {
+        background-color: var(--mat-sys-surface-dim);
+        opacity: 0.6;
+        box-shadow: var(--mat-sys-level2);
 
-  mat-icon {
-    text-align: center;
-    width: 30px;
-    height: 30px;
-    align-self: center;
-    font-size: 28px;
-  }
+        span,
+        mat-icon {
+          color: var(--mat-sys-primary) !important;
+        }
+      }
 
-  .button-navi {
-    padding-top: map.get($padding, padding-small);
-    color: $front-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    span{
-      font-size: 16px;
-    }
-    span {
-      opacity: 0;
-      transform: translateX(-10px);
-      max-width: 0;
-      overflow: hidden;
-
-      transition:
-        opacity .25s ease,
-        transform .25s ease,
-        max-width .25s ease;
-    }
-
-    &.active {
-      justify-content: flex-start;
+      mat-icon {
+        color: var(--mat-sys-primary-container) !important;
+      }
 
       span {
-        padding-left: map.get($padding, padding-small);
-        opacity: 1;
-        transform: translateX(0);
-        max-width: 200px;
+        color: var(--mat-sys-primary-container) !important;
+        padding-right: 8px;
+        display: none;
       }
     }
   }
+}
 
+mat-sidenav-content {
+  min-height: 500px;
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .nav-bar {
+    display: unset !important;
+  }
+  mat-sidenav {
+    display: none !important;
+    margin: 0 !important;
+  }
+
+  mat-sidenav.active {
+    display: unset !important;
+    height: -webkit-fill-available !important;
+    width: 100% !important;
+    border-radius: unset;
+
+    mat-list-item {
+      span {
+        display: unset;
+      }
+    }
+  }
 }
 /**************NavBar-Style****************/
+/**************Icon-Button-Style****************/
+button {
+  &:hover {
+    background-color: var(--mat-sys-surface-dim);
+    opacity: 0.6;
+    mat-icon {
+      color: var(--mat-sys-primary) !important;
+    }
+  }
 
+  mat-icon {
+    color: var(--mat-sys-primary-container) !important;
+  }
+}
+
+/**************Icon-Button-Style****************/
+
+.test {
+  position: absolute;
+  width: 100%;
+  height: 900px;
+  background-color: red;
+}
 

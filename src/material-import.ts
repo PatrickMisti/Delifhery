@@ -2,6 +2,14 @@ import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {MatButton, MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
+import {
+  MatDrawer,
+  MatDrawerContainer,
+  MatDrawerContent,
+  MatSidenav,
+  MatSidenavContainer, MatSidenavContent
+} from '@angular/material/sidenav';
+import {MatListItem, MatListItemIcon, MatNavList} from '@angular/material/list';
 
 export const MATERIAL_BASICS = [
   MatIcon,
@@ -12,6 +20,19 @@ export const MATERIAL_BASICS = [
 ];
 
 export const MATERIAL_DASHBOARD = [
-  ...MATERIAL_BASICS,
   MatToolbar,
+];
+
+export const MATERIAL_NAVBAR = [
+  MatSidenav,
+  MatSidenavContainer,
+  MatListItem,
+
+  MatDrawerContainer,
+  MatDrawer,
+  MatDrawerContent,
+  MatNavList,
+  MatSidenavContent,
+  MatListItemIcon
+
 ];
