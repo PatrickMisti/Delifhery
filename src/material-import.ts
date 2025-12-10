@@ -12,7 +12,7 @@ import {
 import {MatListItem, MatListItemIcon, MatNavList} from '@angular/material/list';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
-import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatCheckbox} from '@angular/material/checkbox';
 
 export const MATERIAL_BASICS = [
@@ -57,6 +57,7 @@ export const MATERIAL_FORM = [
   MatCard,
   MatCardContent,
   MatCardHeader,
+  MatCardTitle,
 
   MatInput,
   MatFormField,
