@@ -37,23 +37,26 @@
           <span>Add</span>
         </mat-list-item>
       </mat-nav-list>
+
       <mat-nav-list>
-        <mat-list-item>
+        <mat-list-item routerLink="/packages" routerLinkActive="active">
           <mat-icon matListItemIcon class="material-symbols-outlined">package_2</mat-icon>
           <span>Paket übersicht</span>
         </mat-list-item>
-        <mat-list-item>
+
+        <mat-list-item routerLink="/calc" routerLinkActive="active">
           <mat-icon matListItemIcon>calculate</mat-icon>
           <span>Paketpreis rechner</span>
         </mat-list-item>
-        <mat-list-item>
+
+        <mat-list-item routerLink="/statistics" routerLinkActive="active">
           <mat-icon matListItemIcon>analytics</mat-icon>
           <span>Statistik</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div class="test"></div>
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

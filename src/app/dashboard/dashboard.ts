@@ -1,6 +1,7 @@
 import {Component, computed, DOCUMENT, inject, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +9,10 @@ import {NgClass} from '@angular/common';
     MATERIAL_BASICS,
     MATERIAL_DASHBOARD,
     MATERIAL_NAVBAR,
-    NgClass
+    NgClass,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './dashboard.html',
   styles: ``,
@@ -36,5 +40,9 @@ export class Dashboard {
       html.classList.remove('dark-theme');
       html.style.colorScheme = 'light';
     }
+  }
+
+  changeComponent(event:any) {
+    console.log(event);
   }
 }
