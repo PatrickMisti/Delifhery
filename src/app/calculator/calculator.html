@@ -1,3 +1,80 @@
 <div class="page">
-  <p>calculator works!</p>
+  <mat-card>
+    <mat-stepper orientation="horizontal">
+
+      <!-- STEP 1: Adressen -->
+      <mat-step [stepControl]="addressForm" [state]="'address'">
+        <form [formGroup]="addressForm">
+          <h3>Adressen</h3>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Absender Adresse</mat-label>
+            <input matInput formControlName="senderAddress">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Empfänger Adresse</mat-label>
+            <input matInput formControlName="receiverAddress">
+          </mat-form-field>
+
+          <button mat-button matStepperNext [disabled]="addressForm.invalid">
+            Weiter
+          </button>
+        </form>
+      </mat-step>
+
+      <!-- STEP 2: Paketdaten -->
+      <mat-step [stepControl]="packageForm" [state]="'size'">
+        <form [formGroup]="packageForm">
+          <h3>Paketdaten</h3>
+
+          <mat-form-field>
+            <mat-label>Breite (cm)</mat-label>
+            <input matInput formControlName="width" type="number">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Länge (cm)</mat-label>
+            <input matInput formControlName="length" type="number">
+          </mat-form-field>
+
+          <button mat-button matStepperPrevious>Zurück</button>
+          <button mat-button matStepperNext [disabled]="packageForm.invalid">
+            Weiter
+          </button>
+        </form>
+      </mat-step>
+
+      <!-- STEP 3: Bestätigung -->
+      <mat-step [stepControl]="confirmForm" [state]="'check'">
+        <form [formGroup]="confirmForm">
+          <h3>Bestätigung</h3>
+
+          <mat-checkbox formControlName="accept">
+            Ich bestätige die Angaben
+          </mat-checkbox>
+
+          <button mat-button matStepperPrevious>Zurück</button>
+          <button mat-button [disabled]="confirmForm.invalid">
+            Fertig
+          </button>
+        </form>
+      </mat-step>
+
+      <!-- Icon overrides. -->
+      <ng-template [matStepperIcon]="'address'">
+        <mat-icon>add_home_work</mat-icon>
+      </ng-template>
+      <ng-template [matStepperIcon]="'size'">
+        <mat-icon>open_with</mat-icon>
+      </ng-template>
+      <ng-template [matStepperIcon]="'check'">
+        <mat-icon>fact_check</mat-icon>
+      </ng-template>
+    </mat-stepper>
+
+  </mat-card>
+  <mat-card>
+    // todo add price
+  </mat-card>
 </div>

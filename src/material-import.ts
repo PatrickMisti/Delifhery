@@ -1,5 +1,5 @@
 import {MatIcon} from '@angular/material/icon';
-import {MatInput} from '@angular/material/input';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatButton, MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {
@@ -11,6 +11,9 @@ import {
 } from '@angular/material/sidenav';
 import {MatListItem, MatListItemIcon, MatNavList} from '@angular/material/list';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
+import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 export const MATERIAL_BASICS = [
   MatIcon,
@@ -40,4 +43,24 @@ export const MATERIAL_NAVBAR = [
   MatMenuTrigger,
   MatMenuItem
 
+];
+
+export const MATERIAL_STEPPER = [
+  MatStepper,
+  MatStep,
+  MatStepperPrevious,
+  MatStepperNext,
+  MatStepperIcon
+];
+
+export const MATERIAL_FORM = [
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+
+  MatInput,
+  MatFormField,
+  MatLabel,
+
+  MatCheckbox
 ];
