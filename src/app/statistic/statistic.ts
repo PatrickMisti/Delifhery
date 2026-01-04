@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, computed, effect, HostListener, OnInit, signal, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, computed, effect, signal, ViewChild} from '@angular/core';
 import {MATERIAL_FORM} from '../../material-import';
 import {BaseChartDirective} from 'ng2-charts';
 import 'chart.js/auto';
