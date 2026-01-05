@@ -22,10 +22,19 @@
         }
         <span>Theme</span>
       </button>
-      <button mat-menu-item (click)="login()">
-        <mat-icon>login</mat-icon>
-        <span>Login</span>
-      </button>
+
+      @if (currentUser()){
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      } @else {
+        <button mat-menu-item (click)="login()">
+          <mat-icon>login</mat-icon>
+          <span>Login</span>
+        </button>
+      }
+
     </mat-menu>
   </mat-toolbar>
 

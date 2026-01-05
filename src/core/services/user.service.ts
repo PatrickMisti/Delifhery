@@ -17,6 +17,10 @@ export class UserService implements IUserService {
   private _loginService = inject(LoginService);
   private _currentUser = new BehaviorSubject<User | null>(null);
 
+  isCurrentUser$(): BehaviorSubject<User|null> {
+    return this._currentUser;
+  }
+
   getUserById(userId: number): Observable<User> {
     return this._http.get<User>(`api/user/${userId}`, {
       params: {
@@ -28,22 +32,17 @@ export class UserService implements IUserService {
   }
 
   async login() {
-
+    console.log('user service login called');
     if (this._loginService.isLoggedIn() && this._currentUser.value) return true;
 
     if (this._loginService.isLoggedIn() && !this._currentUser.value) {
-      const user = await this._getCurrentUser();
-      this._currentUser.next(user);
-      return !!this._currentUser.value;
+      await this._updateUser();
     }
 
     try {
-      console.log('login');
       const loggedIn = await this._loginService.login();
       if (loggedIn) {
-        const user = await this._getCurrentUser();
-        this._currentUser.next(user);
-        return !!user;
+        await this._updateUser();
       }
       return loggedIn;
     } catch (error) {
@@ -52,10 +51,24 @@ export class UserService implements IUserService {
     }
   }
 
-  logout(): void {
-    this._loginService.logout();
+  isLoggedIn(): boolean {
+    return this._loginService.isLoggedIn();
+  }
+
+  isAuthenticated(): boolean {
+    return this._loginService.isAuthenticated();
+  }
+
+  async logout(): Promise<void> {
+    await this._loginService.logout();
     this._currentUser.next(null);
     localStorage.removeItem(localStorageTokenName);
+  }
+
+  private async _updateUser() {
+    const user = await this._getCurrentUser();
+    this._currentUser.next(user);
+    return !!user;
   }
 
   private async _getCurrentUser() {
@@ -87,12 +100,12 @@ export class UserService implements IUserService {
 
       const newUser = CreateUserDto.fromProfile(this._loginService.getUserProfile());
       if (!newUser) return null;
+
       return await firstValueFrom(
         this._http.post<User>('api/user/', newUser).pipe(
           map(json => User.fromJson(json))
         )
       );
-
     } catch (error) {
       console.error('Error fetching current user:', error);
       return null;

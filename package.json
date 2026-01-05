@@ -37,6 +37,7 @@
     "keycloak-js": "^26.2.2",
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",
+    "subsink": "^1.0.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

@@ -4,5 +4,6 @@ import {Observable} from 'rxjs';
 export interface IUserService {
   getUserById(userId: number) : Observable<User>;
   login() : Promise<boolean>;
-  logout() : void;
+  isLoggedIn() : boolean;
+  logout() : Promise<void>;
 }

@@ -1,11 +1,10 @@
-import {Component, computed, DOCUMENT, inject, signal} from '@angular/core';
+import {Component, computed, DOCUMENT, inject, OnDestroy, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {KeycloakService} from 'keycloak-angular';
-import Keycloak from 'keycloak-js';
-import LoginService from '../../core/services/login.service';
 import {UserService} from '../../core/services/user.service';
+import {Disposabled} from '../../core/utilities/disposabled';
+import {User} from '../../core/models/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +20,7 @@ import {UserService} from '../../core/services/user.service';
   templateUrl: './dashboard.html',
   styles: ``,
 })
-export class Dashboard {
+export class Dashboard extends Disposabled implements OnDestroy {
   drawer = signal(false);
   isOpenDrawer = computed(() => this.drawer());
 
@@ -29,7 +28,27 @@ export class Dashboard {
   isDarkMode = computed(() => this.themeMode());
   document: Document = inject(DOCUMENT);
 
-  private kc = inject(UserService);
+  private userService = inject(UserService);
+  currentUser = signal<User | null>(null);
+
+  constructor() {
+    super();
+    this.registration();
+  }
+
+  registration(): void {
+    this.subSink = this.userService.isCurrentUser$().subscribe(currentUser => {
+      console.log('Current User:', currentUser);
+      this.currentUser.set(currentUser);
+    });
+
+    this.currentUser.set(this.userService.isCurrentUser$().value);
+
+    if (this.userService.isAuthenticated())
+      this.userService.login().then(r => {
+        console.log('User logged in:', r);
+      });
+  }
 
   toggleDrawer() {
     this.drawer.update((value) => !value);
@@ -52,11 +71,18 @@ export class Dashboard {
     console.log(event);
   }
 
-  login() {
-    console.log('login');
+  async login() {
+    console.log('dashboard login called');
+    const loggedIn = await this.userService.login();
+    console.log('Logged in:', loggedIn);
+  }
 
-    this.kc.login().then(r => {
-      console.log('Login result:', r);
-    })
+  async logout() {
+    await this.userService.logout();
+    console.log('Logged out');
+  }
+
+  ngOnDestroy(): void {
+    this.dispose();
   }
 }

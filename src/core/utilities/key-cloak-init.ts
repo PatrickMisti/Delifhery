@@ -12,7 +12,7 @@ export const keyCloakInit: ProvideKeycloakOptions = {
     onLoad: 'check-sso',
     checkLoginIframe: false,
     pkceMethod: 'S256',
-    // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+    silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
   }
 };
 
