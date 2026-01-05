@@ -1,0 +1,59 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Kontakt</mat-card-title>
+  </mat-card-header>
+  <mat-card-content layout="column" [formGroup]="userFormGroup">
+    <mat-label class="font-medium-small p-8">Personen daten:</mat-label>
+    <div class="wrapper gap-10 p-8">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="userName">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Telefon</mat-label>
+        <input type="tel" matInput formControlName="telephone">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <mat-label class="font-medium-small p-8">Adress daten:</mat-label>
+    <div class="wrapper gap-10 p-8" formGroupName="address">
+      <mat-form-field appearance="outline">
+        <mat-label>Straße</mat-label>
+        <input matInput formControlName="street">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nr.</mat-label>
+        <input matInput formControlName="household">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>PLZ</mat-label>
+        <input matInput formControlName="zip" type="number">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Stadt</mat-label>
+        <input matInput formControlName="city">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Land</mat-label>
+        <input matInput formControlName="state">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions layout-align="end center">
+    <button mat-button="tonal" (click)="cancel()">Zurück</button>
+    <button mat-button="tonal" [disabled]="!userFormGroup.dirty || userFormGroup.invalid" (click)="updateUser()">Speichern</button>
+  </mat-card-actions>
+</mat-card>

@@ -5,6 +5,8 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {UserService} from '../../core/services/user.service';
 import {Disposabled} from '../../core/utilities/disposabled';
 import {User} from '../../core/models/user';
+import {OpenDialogWidget} from '../utilities/open-dialog.widget';
+import {UserSite} from '../user-site/user-site';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +24,7 @@ import {User} from '../../core/models/user';
 })
 export class Dashboard extends Disposabled implements OnDestroy {
   title = input<String>();
+
   drawer = signal(false);
   isOpenDrawer = computed(() => this.drawer());
 
@@ -32,6 +35,8 @@ export class Dashboard extends Disposabled implements OnDestroy {
   private userService = inject(UserService);
   currentUser = signal<User | null>(null);
 
+  private _dialog = inject(OpenDialogWidget);
+
   constructor() {
     super();
     this.registration();
@@ -39,16 +44,14 @@ export class Dashboard extends Disposabled implements OnDestroy {
 
   registration(): void {
     this.subSink = this.userService.isCurrentUser$().subscribe(currentUser => {
-      console.log('Current User:', currentUser);
       this.currentUser.set(currentUser);
     });
 
     this.currentUser.set(this.userService.isCurrentUser$().value);
 
-    if (this.userService.isAuthenticated())
-      this.userService.login().then(r => {
-        console.log('User logged in:', r);
-      });
+    if (this.userService.isAuthenticated()){
+      this.userService.loadCurrentUser().then();
+    }
   }
 
   toggleDrawer() {
@@ -72,10 +75,12 @@ export class Dashboard extends Disposabled implements OnDestroy {
     console.log(event);
   }
 
+  goToProfile() {
+    this._dialog.openDialog(UserSite);
+  }
+
   async login() {
-    console.log('dashboard login called');
-    const loggedIn = await this.userService.login();
-    console.log('Logged in:', loggedIn);
+    await this.userService.login();
   }
 
   async logout() {

@@ -287,4 +287,105 @@ app-calculator {
 .page {
   width: 80%;
 }
+
 /**************Page-Style****************/
+/**************General-Style****************/
+$vw-base: 1vw;
+
+// Font Scale
+$font-scale: (
+  h1: (
+    min: 2rem,
+    fluid: 4vw,
+    max: 3rem
+  ),
+  h2: (
+    min: 1.75rem,
+    fluid: 3.5vw,
+    max: 2.5rem
+  ),
+  h3: (
+    min: 1.5rem,
+    fluid: 3vw,
+    max: 2rem
+  ),
+  h4: (
+    min: 1.25rem,
+    fluid: 2.5vw,
+    max: 1.5rem
+  ),
+  h5: (
+    min: 1rem,
+    fluid: 2vw,
+    max: 1.25rem
+  ),
+  body: (
+    min: 1rem,
+    fluid: 1.2vw,
+    max: 1.125rem
+  ),
+  caption: (
+    min: 0.75rem,
+    fluid: 1vw,
+    max: 0.875rem
+  )
+);
+
+@mixin fluid-font($level) {
+  $config: map-get($font-scale, $level);
+
+  @if $config == null {
+    @error "Font-Level `#{$level}` nicht definiert.";
+  }
+
+  font-size: clamp(
+    map-get($config, min),
+    map-get($config, fluid),
+    map-get($config, max)
+  );
+}
+
+@mixin general-style {
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @for $i from 1 through 100 {
+    .gap-#{$i} {
+      gap: #{$i}px;
+    }
+
+    .p-#{$i} {
+      padding: #{$i}px;
+    }
+  }
+
+  .font-large {
+    @include fluid-font(h3)
+  }
+
+  .font-medium {
+    @include fluid-font(h5)
+  }
+
+  .font-medium-small {
+    @include fluid-font(body)
+  }
+
+  .font-small {
+    @include fluid-font(caption)
+  }
+
+  .primary-color {
+    color: var(--mat-sys-primary);
+  }
+
+  .secondary-color {
+    color: var(--mat-sys-secondary);
+  }
+}
+
+@include general-style;
+/**************General-Style****************/

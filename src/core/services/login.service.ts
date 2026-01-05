@@ -5,7 +5,7 @@ import {localStorageTokenName} from '../utilities/key-cloak-init';
 @Injectable({
   providedIn: 'root',
 })
-class LoginService {
+export class LoginService {
   private _keycloak: Keycloak = inject(Keycloak);
 
   isLoggedIn(): boolean {
@@ -16,26 +16,19 @@ class LoginService {
     return this._keycloak.authenticated;
   }
 
-  async login(): Promise<boolean> {
-    console.log('login');
+  updateLocalStorageToken() {
+    if (this._keycloak.token) {
+      localStorage.setItem(localStorageTokenName, this._keycloak.token);
+    }
+  }
 
+  async login() {
     if (this._keycloak.authenticated) {
-      localStorage.setItem(localStorageTokenName, this._keycloak.token || '');
-      return Promise.resolve(true);
+      this.updateLocalStorageToken()
+      return;
     }
 
-    try {
-      await this._keycloak.login().then(_ => console.log("keycloak login response: "));
-      localStorage.setItem(localStorageTokenName, this._keycloak.token || '');
-      if (this.isLoggedIn()) {
-        console.log("Login successful: ", this._keycloak.authenticated);
-        return true;
-      }
-      return false;
-    } catch (e) {
-      console.log("error during login: ", e);
-      return false;
-    }
+    await this._keycloak.login().then(_ => console.log("keycloak login response: "));
   }
 
   getUserProfile(): KeycloakTokenParsed | null {
@@ -50,5 +43,3 @@ class LoginService {
     console.log("Logged out: ", this._keycloak.authenticated)
   }
 }
-
-export default LoginService

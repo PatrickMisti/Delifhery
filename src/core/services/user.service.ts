@@ -2,11 +2,21 @@ import {inject, Injectable} from '@angular/core';
 import {IUserService} from './interfaces';
 import {User} from "../models/user";
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, firstValueFrom, map, Observable, tap} from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  switchMap,
+  tap,
+  throwError
+} from 'rxjs';
 import {IncludeShipment} from '../models/enum-types';
-import LoginService from './login.service';
+import {LoginService} from './login.service';
 import {CreateUserDto} from './dto/create-user-dto';
 import {localStorageTokenName} from '../utilities/key-cloak-init';
+import {UpdateUserDto} from './dto/update-user-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +27,7 @@ export class UserService implements IUserService {
   private _loginService = inject(LoginService);
   private _currentUser = new BehaviorSubject<User | null>(null);
 
-  isCurrentUser$(): BehaviorSubject<User|null> {
+  isCurrentUser$(): BehaviorSubject<User | null> {
     return this._currentUser;
   }
 
@@ -32,23 +42,15 @@ export class UserService implements IUserService {
   }
 
   async login() {
-    console.log('user service login called');
-    if (this._loginService.isLoggedIn() && this._currentUser.value) return true;
+    console.log('user service login called', this._loginService.isLoggedIn(), this._currentUser.value);
+    if (this._loginService.isLoggedIn() && this._currentUser.value) return;
 
     if (this._loginService.isLoggedIn() && !this._currentUser.value) {
-      await this._updateUser();
+      await this._setCurrentUser();
+      return;
     }
 
-    try {
-      const loggedIn = await this._loginService.login();
-      if (loggedIn) {
-        await this._updateUser();
-      }
-      return loggedIn;
-    } catch (error) {
-      console.error('Login failed:', error);
-      return false;
-    }
+    await this._loginService.login();
   }
 
   isLoggedIn(): boolean {
@@ -59,13 +61,38 @@ export class UserService implements IUserService {
     return this._loginService.isAuthenticated();
   }
 
+  loadCurrentUser() {
+    this._loginService.updateLocalStorageToken();
+    return this._setCurrentUser();
+  }
+
   async logout(): Promise<void> {
     await this._loginService.logout();
     this._currentUser.next(null);
     localStorage.removeItem(localStorageTokenName);
   }
 
-  private async _updateUser() {
+  updateUser(user: User): Observable<void> {
+    const updateUserDto = UpdateUserDto.fromUser(user);
+    console.log("updating user:", updateUserDto);
+
+    return this._http.put(`api/user`, updateUserDto, {observe: 'response'})
+      .pipe(
+        switchMap(async request => {
+          if (request.status == 204) {
+            this.getUserById(this._currentUser.value?.userId ?? -1);
+            return;
+          }
+          throw new Error("System error while updating user data.");
+        }),
+        catchError(e => {
+          console.error("Error updating user:", e);
+          return throwError(() => e);
+        })
+      );
+  }
+
+  private async _setCurrentUser() {
     const user = await this._getCurrentUser();
     this._currentUser.next(user);
     return !!user;
@@ -77,7 +104,7 @@ export class UserService implements IUserService {
 
     try {
       const user = await firstValueFrom(
-        this._http.get<User>(`api/user/subject/${profile.sub}`,{observe: 'response'}).pipe(
+        this._http.get<User>(`api/user/subject/${profile.sub}`, {observe: 'response'}).pipe(
           tap(data => {
             if (data.status >= 400) {
               throw new Error("System error while fetching user data.");

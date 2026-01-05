@@ -3,7 +3,8 @@ import {Observable} from 'rxjs';
 
 export interface IUserService {
   getUserById(userId: number) : Observable<User>;
-  login() : Promise<boolean>;
+  login() : Promise<void>;
   isLoggedIn() : boolean;
   logout() : Promise<void>;
+  updateUser(user: User) : Observable<void>;
 }
