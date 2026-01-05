@@ -6,6 +6,7 @@ import {BehaviorSubject, firstValueFrom, map, Observable, tap} from 'rxjs';
 import {IncludeShipment} from '../models/enum-types';
 import LoginService from './login.service';
 import {CreateUserDto} from './dto/create-user-dto';
+import {localStorageTokenName} from '../utilities/key-cloak-init';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +32,8 @@ export class UserService implements IUserService {
     if (this._loginService.isLoggedIn() && this._currentUser.value) return true;
 
     if (this._loginService.isLoggedIn() && !this._currentUser.value) {
-      await this._getCurrentUser();
-
+      const user = await this._getCurrentUser();
+      this._currentUser.next(user);
       return !!this._currentUser.value;
     }
 
@@ -49,6 +50,12 @@ export class UserService implements IUserService {
       console.error('Login failed:', error);
       return false;
     }
+  }
+
+  logout(): void {
+    this._loginService.logout();
+    this._currentUser.next(null);
+    localStorage.removeItem(localStorageTokenName);
   }
 
   private async _getCurrentUser() {

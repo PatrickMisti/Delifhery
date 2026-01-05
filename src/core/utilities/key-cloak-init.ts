@@ -15,3 +15,5 @@ export const keyCloakInit: ProvideKeycloakOptions = {
     // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
   }
 };
+
+export const  localStorageTokenName = 'access_token';

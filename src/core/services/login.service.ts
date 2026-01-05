@@ -1,32 +1,33 @@
 import {inject, Injectable} from '@angular/core';
 import Keycloak, {KeycloakTokenParsed} from 'keycloak-js';
+import {localStorageTokenName} from '../utilities/key-cloak-init';
 
 @Injectable({
   providedIn: 'root',
 })
 class LoginService {
-  private _localStorageTokenName = 'access_token';
+
 
   private _keycloak: Keycloak = inject(Keycloak);
 
   isLoggedIn(): boolean {
-    return this._keycloak.authenticated && localStorage.getItem(this._localStorageTokenName) !== null;
+    return this._keycloak.authenticated && localStorage.getItem(localStorageTokenName) !== null;
   }
 
   login(): Promise<boolean> {
     console.log('login');
 
     if (this._keycloak.authenticated) {
-      localStorage.setItem(this._localStorageTokenName, this._keycloak.token || '');
+      localStorage.setItem(localStorageTokenName, this._keycloak.token || '');
       return Promise.resolve(true);
     }
 
     return this._keycloak.login({redirectUri: window.location.origin})
       .then(r => {
-        localStorage.setItem(this._localStorageTokenName, JSON.stringify(this._keycloak.token));
+        localStorage.setItem(localStorageTokenName, JSON.stringify(this._keycloak.token));
         if (this.isLoggedIn()) {
           console.log("Login successful: ", this._keycloak.authenticated);
-          localStorage.setItem(this._localStorageTokenName, this._keycloak.token || '');
+          localStorage.setItem(localStorageTokenName, this._keycloak.token || '');
           return true;
         }
         return false;
