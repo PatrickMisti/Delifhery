@@ -1,4 +1,4 @@
-import {Component, computed, DOCUMENT, inject, OnDestroy, signal} from '@angular/core';
+import {Component, computed, DOCUMENT, inject, input, OnDestroy, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
@@ -21,6 +21,7 @@ import {User} from '../../core/models/user';
   styles: ``,
 })
 export class Dashboard extends Disposabled implements OnDestroy {
+  title = input<String>();
   drawer = signal(false);
   isOpenDrawer = computed(() => this.drawer());
 

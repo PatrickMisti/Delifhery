@@ -8,5 +8,5 @@ import {Dashboard} from './dashboard/dashboard';
   templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('delifhery-client');
+  protected readonly title = signal('Delifhery');
 }
