@@ -6,7 +6,7 @@ import {MATERIAL_FORM} from '../../../material-import';
 @Component({
   selector: 'app-statistic-chart',
   imports: [
-    BaseChartDirective,
+    // BaseChartDirective,
     ...MATERIAL_FORM
   ],
   templateUrl: './statistic-chart.html',

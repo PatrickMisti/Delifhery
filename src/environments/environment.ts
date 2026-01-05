@@ -1,4 +1,7 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:5155',
+  apiBaseUrl: 'https://localhost:7173',
+  keycloakApiUrl: 'http://localhost:18080',
+  keycloakRealm: 'keycloak-auth',
+  keycloakClientId: 'public-client',
 };
