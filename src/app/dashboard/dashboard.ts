@@ -2,11 +2,11 @@ import {Component, computed, DOCUMENT, inject, input, OnDestroy, signal} from '@
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {UserService} from '../../core/services/user.service';
+import UserService from '../../core/services/user.service';
 import {Disposabled} from '../../core/utilities/disposabled';
 import {User} from '../../core/models/user';
 import {OpenDialogWidget} from '../utilities/open-dialog.widget';
-import {UserSite} from '../user-site/user-site';
+import {UserSite} from './user-site/user-site';
 
 @Component({
   selector: 'app-dashboard',

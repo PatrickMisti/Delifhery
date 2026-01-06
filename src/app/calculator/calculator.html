@@ -1,6 +1,6 @@
-<div class="page">
+<div>
   <mat-card>
-    <mat-stepper orientation="horizontal" [formGroup]="form" #stepper>
+    <mat-stepper orientation="horizontal" [formGroup]="form" #stepper linear>
 
       <!-- STEP 1: Adressen -->
       <mat-step [stepControl]="ownAddressOrigin"  [state]="'address'">
@@ -9,23 +9,27 @@
 
           <mat-slide-toggle [formControl]="useOwnAddressOrigin" (click)="useOwnAddress()">Eigene Addresse verwenden</mat-slide-toggle>
 
-          <div class="wrapper gap-10 p-8"  >
-            <mat-form-field appearance="outline">
-              <mat-label>Straße</mat-label>
-              <input matInput formControlName="street">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Nr.</mat-label>
-              <input matInput formControlName="household">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>PLZ</mat-label>
-              <input matInput formControlName="zip" type="number">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Stadt</mat-label>
-              <input matInput formControlName="city">
-            </mat-form-field>
+          <div class="p-8">
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>Straße</mat-label>
+                <input matInput formControlName="street">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Nr.</mat-label>
+                <input matInput formControlName="household">
+              </mat-form-field>
+            </div>
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>PLZ</mat-label>
+                <input matInput formControlName="zip" type="number">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Stadt</mat-label>
+                <input matInput formControlName="city">
+              </mat-form-field>
+            </div>
             <mat-form-field appearance="outline">
               <mat-label>Land</mat-label>
               <input matInput formControlName="state">
@@ -40,23 +44,29 @@
       <mat-step [stepControl]="addressDest" [state]="'size'">
         <form [formGroup]="addressDest">
           <h3>Adressempfänger</h3>
-          <div class="wrapper gap-10 p-8">
-            <mat-form-field appearance="outline">
-              <mat-label>Straße</mat-label>
-              <input matInput formControlName="street">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Nr.</mat-label>
-              <input matInput formControlName="household">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>PLZ</mat-label>
-              <input matInput formControlName="zip" type="number">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Stadt</mat-label>
-              <input matInput formControlName="city">
-            </mat-form-field>
+
+
+          <div class="p-8">
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>Straße</mat-label>
+                <input matInput formControlName="street">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Nr.</mat-label>
+                <input matInput formControlName="household">
+              </mat-form-field>
+            </div>
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>PLZ</mat-label>
+                <input matInput formControlName="zip" type="number">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Stadt</mat-label>
+                <input matInput formControlName="city">
+              </mat-form-field>
+            </div>
             <mat-form-field appearance="outline">
               <mat-label>Land</mat-label>
               <input matInput formControlName="state">
@@ -73,27 +83,32 @@
         <form [formGroup]="packageForm">
           <h3>Paket</h3>
 
-          <div class="wrapper gap-10 p-8">
-            <mat-form-field appearance="outline">
-              <mat-label>Breite</mat-label>
-              <input matInput formControlName="width" type="number">
-              <span matTextSuffix>cm</span>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Länge</mat-label>
-              <input matInput formControlName="length" type="number">
-              <span matTextSuffix>cm</span>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Höhe</mat-label>
-              <input matInput formControlName="height" type="number">
-              <span matTextSuffix>cm</span>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Gewicht</mat-label>
-              <input matInput formControlName="weight" type="number">
-              <span matTextSuffix>kg</span>
-            </mat-form-field>
+          <div class="p-8">
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>Breite</mat-label>
+                <input matInput formControlName="width" type="number">
+                <span matTextSuffix>cm</span>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Länge</mat-label>
+                <input matInput formControlName="length" type="number">
+                <span matTextSuffix>cm</span>
+              </mat-form-field>
+            </div>
+
+            <div class="wrapper">
+              <mat-form-field appearance="outline" class="p-right-16">
+                <mat-label>Höhe</mat-label>
+                <input matInput formControlName="height" type="number">
+                <span matTextSuffix>cm</span>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Gewicht</mat-label>
+                <input matInput formControlName="weight" type="number">
+                <span matTextSuffix>kg</span>
+              </mat-form-field>
+            </div>
           </div>
 
           <button mat-button matStepperPrevious>Zurück</button>

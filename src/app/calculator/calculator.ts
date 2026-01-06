@@ -3,11 +3,13 @@ import {MATERIAL_BASICS, MATERIAL_FORM, MATERIAL_STEPPER} from '../../material-i
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {UserService} from '../../core/services/user.service';
+import UserService from '../../core/services/user.service';
 import {Disposabled} from '../../core/utilities/disposabled';
 import {User} from '../../core/models/user';
 import {MatSuffix} from '@angular/material/input';
 import {MatStepper} from '@angular/material/stepper';
+import {OpenDialogWidget} from '../utilities/open-dialog.widget';
+import {PackageService} from '../../core/services/package.service';
 
 type AddressForm = {
   street: FormControl<string | null>;
@@ -64,6 +66,8 @@ export class Calculator extends Disposabled implements OnDestroy {
   packageForm: FormGroup<PackageForm>;
 
   private _userService = inject(UserService);
+  private _packageService = inject(PackageService);
+  private _dialog = inject(OpenDialogWidget);
 
   constructor(private fb: FormBuilder) {
     super();
@@ -86,10 +90,10 @@ export class Calculator extends Disposabled implements OnDestroy {
     });
 
     this.packageForm = this.fb.group({
-      width: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0)]}),
-      height: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0)]}),
-      length: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0)]}),
-      weight: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0)]}),
+      width: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0), Validators.max(100)]}),
+      height: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0), Validators.max(100)]}),
+      length: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0), Validators.max(100)]}),
+      weight: this.fb.control<number | null>(null, {validators: [Validators.required, Validators.min(0), Validators.max(30)]}),
     })
 
 
@@ -129,22 +133,67 @@ export class Calculator extends Disposabled implements OnDestroy {
   }
 
   calculatePrice() {
-    if (this.form.invalid) {
-      this._snackBar.open("Error some fields not set correctly", "Close");
-      return;
-    }
+    const dto = this._upsetCalculate();
+    if (!dto) return;
 
-    this.resetForm();
+    this.subSink = this._packageService.calculatePackageCost(dto)
+      .subscribe({
+        next: (price) => {
+          this._dialog.openDefaultDialog(
+            {
+              title: "Price Calculation",
+              message: `The calculated price is $${price}`
+            });
+        },
+        error: (err) => {
+          this._snackBar.open("Error calculating price", "Close");
+        }
+      });
+    //this._resetForm();
   }
 
-  resetForm() {
+  private _upsetCalculate() {
+    const addr = this._userService.isCurrentUser$().value?.address;
+
+    let zipOrigin = this.ownAddressOrigin.value.zip;
+    let stateOrigin = this.ownAddressOrigin.value.state;
+
+    if (this.useOwnAddressOrigin.value && addr) {
+      zipOrigin = addr.postalCode;
+      stateOrigin = addr.country;
+    }
+
+    if (!zipOrigin || !stateOrigin) {
+      this._snackBar.open("Error: origin address not set correctly", "Close");
+      return null;
+    }
+    return this._buildCalcDto(zipOrigin, stateOrigin);
+  }
+
+  private _buildCalcDto(pCodeOrigin: string, countryOrigin: string) {
+    const dest = this.addressDest.value;
+    const pkg = this.packageForm.value;
+    return {
+      postalCodeDest: dest.zip!.toString(),
+      countryDest: dest.state!.toString(),
+      postalCodeOrigin: pCodeOrigin!,
+      countryOrigin: countryOrigin!,
+      width: pkg.width!,
+      height: pkg.height!,
+      length: pkg.length!,
+      weight: pkg.weight!,
+    };
+
+  }
+
+  private _resetForm() {
     this.form.reset();
     this.form.markAsPristine();
     this.stepper.reset();
   }
 
   ngOnDestroy(): void {
-    this.resetForm();
+    this._resetForm();
     this.dispose();
   }
 }

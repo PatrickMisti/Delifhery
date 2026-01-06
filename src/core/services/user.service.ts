@@ -21,7 +21,7 @@ import {UpdateUserDto} from './dto/update-user-dto';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService implements IUserService {
+class UserService implements IUserService {
 
   private _http: HttpClient = inject(HttpClient);
   private _loginService = inject(LoginService);
@@ -139,3 +139,5 @@ export class UserService implements IUserService {
     }
   }
 }
+
+export default UserService

@@ -1,11 +1,11 @@
 import {Component, inject, OnDestroy} from '@angular/core';
-import {UserService} from '../../core/services/user.service';
-import {MATERIAL_BASICS, MATERIAL_FORM} from '../../material-import';
+import UserService from '../../../core/services/user.service';
+import {MATERIAL_BASICS, MATERIAL_FORM} from '../../../material-import';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {User} from '../../core/models/user';
-import {Disposabled} from '../../core/utilities/disposabled';
+import {User} from '../../../core/models/user';
+import {Disposabled} from '../../../core/utilities/disposabled';
 import {MatDialogRef} from '@angular/material/dialog';
-import {Address} from '../../core/models/address';
+import {Address} from '../../../core/models/address';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 

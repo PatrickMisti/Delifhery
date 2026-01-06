@@ -360,6 +360,20 @@ $font-scale: (
     .p-#{$i} {
       padding: #{$i}px;
     }
+
+    .p-left-#{$i} {
+      padding-left: #{$i}px;
+    }
+
+    .p-right-#{$i} {
+      padding-right: #{$i}px;
+    }
+    .p-top-#{$i} {
+      padding-top: #{$i}px;
+    }
+    .p-bottom-#{$i} {
+      padding-bottom: #{$i}px;
+    }
   }
 
   .font-large {
