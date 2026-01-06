@@ -145,11 +145,11 @@ export class Calculator extends Disposabled implements OnDestroy {
               message: `The calculated price is $${price}`
             });
         },
-        error: (err) => {
+        error: (_) => {
           this._snackBar.open("Error calculating price", "Close");
         }
       });
-    //this._resetForm();
+    this._resetForm();
   }
 
   private _upsetCalculate() {

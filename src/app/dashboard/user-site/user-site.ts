@@ -100,7 +100,7 @@ export class UserSite extends Disposabled implements OnDestroy {
 
     this.subSink = this._userService.updateUser(currentUser).subscribe({
       next: () => this.notifyUiUpdate("User updated successfully."),
-      error: (err) => this.notifyUiUpdate("User updated failed."),
+      error: (_) => this.notifyUiUpdate("User updated failed."),
     });
   }
 
