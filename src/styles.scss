@@ -332,16 +332,16 @@ $font-scale: (
 );
 
 @mixin fluid-font($level) {
-  $config: map-get($font-scale, $level);
+  $config: map.get($font-scale, $level);
 
   @if $config == null {
     @error "Font-Level `#{$level}` nicht definiert.";
   }
 
   font-size: clamp(
-    map-get($config, min),
-    map-get($config, fluid),
-    map-get($config, max)
+    map.get($config, min),
+    map.get($config, fluid),
+    map.get($config, max)
   );
 }
 

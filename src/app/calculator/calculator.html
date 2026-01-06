@@ -1,80 +1,105 @@
 <div class="page">
   <mat-card>
-    <mat-stepper orientation="horizontal">
+    <mat-stepper orientation="horizontal" [formGroup]="form" #stepper>
 
       <!-- STEP 1: Adressen -->
-      <mat-step [stepControl]="addressForm" [state]="'address'">
-        <form [formGroup]="addressForm">
-          <h3>Adressen</h3>
+      <mat-step [stepControl]="ownAddressOrigin"  [state]="'address'">
+        <form [formGroup]="ownAddressOrigin">
+          <h3>Adressabsender</h3>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Absender Adresse</mat-label>
-            <input matInput formControlName="senderAddress">
-          </mat-form-field>
+          <mat-slide-toggle [formControl]="useOwnAddressOrigin" (click)="useOwnAddress()">Eigene Addresse verwenden</mat-slide-toggle>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Empfänger Adresse</mat-label>
-            <input matInput formControlName="receiverAddress">
-          </mat-form-field>
+          <div class="wrapper gap-10 p-8"  >
+            <mat-form-field appearance="outline">
+              <mat-label>Straße</mat-label>
+              <input matInput formControlName="street">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nr.</mat-label>
+              <input matInput formControlName="household">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>PLZ</mat-label>
+              <input matInput formControlName="zip" type="number">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Stadt</mat-label>
+              <input matInput formControlName="city">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Land</mat-label>
+              <input matInput formControlName="state">
+            </mat-form-field>
+          </div>
 
-          <button mat-button matStepperNext [disabled]="addressForm.invalid">
-            Weiter
-          </button>
+          <button mat-button matStepperNext [disabled]="ownAddressOrigin.invalid && !useOwnAddressOrigin.value">Weiter</button>
         </form>
       </mat-step>
 
       <!-- STEP 2: Paketdaten -->
-      <mat-step [stepControl]="packageForm" [state]="'size'">
-        <form [formGroup]="packageForm">
-          <h3>Paketdaten</h3>
-
-          <mat-form-field>
-            <mat-label>Breite (cm)</mat-label>
-            <input matInput formControlName="width" type="number">
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Länge (cm)</mat-label>
-            <input matInput formControlName="length" type="number">
-          </mat-form-field>
+      <mat-step [stepControl]="addressDest" [state]="'size'">
+        <form [formGroup]="addressDest">
+          <h3>Adressempfänger</h3>
+          <div class="wrapper gap-10 p-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Straße</mat-label>
+              <input matInput formControlName="street">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nr.</mat-label>
+              <input matInput formControlName="household">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>PLZ</mat-label>
+              <input matInput formControlName="zip" type="number">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Stadt</mat-label>
+              <input matInput formControlName="city">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Land</mat-label>
+              <input matInput formControlName="state">
+            </mat-form-field>
+          </div>
 
           <button mat-button matStepperPrevious>Zurück</button>
-          <button mat-button matStepperNext [disabled]="packageForm.invalid">
-            Weiter
-          </button>
+          <button mat-button matStepperNext [disabled]="addressDest.invalid">Weiter</button>
         </form>
       </mat-step>
 
       <!-- STEP 3: Bestätigung -->
-      <mat-step [stepControl]="confirmForm" [state]="'check'">
-        <form [formGroup]="confirmForm">
-          <h3>Bestätigung</h3>
+      <mat-step [stepControl]="packageForm" [state]="'check'">
+        <form [formGroup]="packageForm">
+          <h3>Paket</h3>
 
-          <mat-checkbox formControlName="accept">
-            Ich bestätige die Angaben
-          </mat-checkbox>
+          <div class="wrapper gap-10 p-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Breite</mat-label>
+              <input matInput formControlName="width" type="number">
+              <span matTextSuffix>cm</span>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Länge</mat-label>
+              <input matInput formControlName="length" type="number">
+              <span matTextSuffix>cm</span>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Höhe</mat-label>
+              <input matInput formControlName="height" type="number">
+              <span matTextSuffix>cm</span>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Gewicht</mat-label>
+              <input matInput formControlName="weight" type="number">
+              <span matTextSuffix>kg</span>
+            </mat-form-field>
+          </div>
 
           <button mat-button matStepperPrevious>Zurück</button>
-          <button mat-button [disabled]="confirmForm.invalid">
-            Fertig
-          </button>
+          <button mat-button [disabled]="packageForm.invalid" (click)="calculatePrice()">Fertig</button>
         </form>
       </mat-step>
-
-      <!-- Icon overrides. -->
-      <ng-template [matStepperIcon]="'address'">
-        <mat-icon>add_home_work</mat-icon>
-      </ng-template>
-      <ng-template [matStepperIcon]="'size'">
-        <mat-icon>open_with</mat-icon>
-      </ng-template>
-      <ng-template [matStepperIcon]="'check'">
-        <mat-icon>fact_check</mat-icon>
-      </ng-template>
     </mat-stepper>
-
-  </mat-card>
-  <mat-card>
-    // todo add price
   </mat-card>
 </div>

@@ -14,13 +14,17 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {MatSlider} from '@angular/material/slider';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 export const MATERIAL_BASICS = [
   MatIcon,
   MatIconButton,
   MatButton,
   MatInput,
-  MatFabButton
+  MatFabButton,
+  MatSlider,
+  MatSlideToggle
 ];
 
 export const MATERIAL_DASHBOARD = [
