@@ -1,8 +1,10 @@
 import {MatDialog} from '@angular/material/dialog';
 import {inject, Injectable} from '@angular/core';
 import {ComponentType} from '@angular/cdk/portal';
-import {Observable} from 'rxjs';
-import {GeneralDialogWidget} from './general-dialog.widget';
+import {catchError, Observable, of} from 'rxjs';
+import {GeneralDialogWidget, ResultDialogWidget} from './general-dialog.widget';
+import {defaults} from 'chart.js';
+import {AddPackageDialogWidget} from './add-package-dialog.widget';
 
 
 @Injectable({
@@ -12,9 +14,10 @@ export class OpenDialogWidget {
 
   private readonly _dialog = inject(MatDialog);
 
-  openDialog<T,D = DialogMessage, R = DialogMessageResponse>(type: ComponentType<T>, data?: D): Observable<R | undefined> {
+  openDialog<T,D = DialogMessage, R = DialogMessageResponse>(type: ComponentType<T>, data?: D, disableOutBound: boolean = true): Observable<R | undefined> {
     const dialogRef = this._dialog.open<T,D,R>(type,{
-      data: data
+      data: data,
+      disableClose: disableOutBound,
     });
 
     return dialogRef.afterClosed();
@@ -22,6 +25,14 @@ export class OpenDialogWidget {
 
   openDefaultDialog<D = DialogMessage, R = DialogMessageResponse>(data?: D): Observable<R | undefined> {
     return this.openDialog(GeneralDialogWidget, data);
+  }
+
+  openResultDialog<D = DataDialog, R = DialogMessageResponse>(data?: D): Observable<R | undefined> {
+    return this.openDialog(ResultDialogWidget, data, false);
+  }
+
+  openShipmentDialog<D = ShipmentDialog, R = DialogMessageResponse>(data?: D): Observable<R | undefined> {
+    return this.openDialog(AddPackageDialogWidget, data);
   }
 }
 
@@ -36,5 +47,21 @@ export class DataDialog implements DialogMessage  {
   constructor(title: string, message: string) {
     this.title = title;
     this.message = message;
+  }
+}
+
+export class ShipmentDialog implements DialogMessage {
+  public title: string;
+  public message: string;
+  public qrCodeData: string;
+  public price: number;
+  public trackingNumber: string;
+
+  constructor(title: string, message: string, qrCodeData: string, price: number, trackingNumber: string) {
+    this.title = title;
+    this.message = message;
+    this.qrCodeData = qrCodeData;
+    this.price = price;
+    this.trackingNumber = trackingNumber;
   }
 }

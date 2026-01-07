@@ -28,7 +28,7 @@ export class LoginService {
       return;
     }
 
-    await this._keycloak.login().then(_ => console.log("keycloak login response: "));
+    await this._keycloak.login({redirectUri: window.location.origin + window.location.pathname}).then(_ => console.log("keycloak login response: "));
   }
 
   getUserProfile(): KeycloakTokenParsed | null {
@@ -39,7 +39,7 @@ export class LoginService {
   }
 
   async logout(): Promise<void> {
-    await this._keycloak.logout({redirectUri: window.location.origin});
+    await this._keycloak.logout({redirectUri: window.location.origin + window.location.pathname});
     console.log("Logged out: ", this._keycloak.authenticated)
   }
 }

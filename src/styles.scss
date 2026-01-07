@@ -151,6 +151,10 @@ body {
       flex: 1 1 $i*1%;
       box-sizing: border-box;
     }
+    [flex-ng="#{$i}"] {
+      flex: 0 0 $i*1%;
+      box-sizing: border-box;
+    }
   }
 }
 
@@ -277,7 +281,8 @@ mat-sidenav-content {
 /**************Page-Style****************/
 app-packages,
 app-statistic,
-app-calculator {
+app-calculator,
+app-add-package, {
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -285,6 +290,7 @@ app-calculator {
 }
 
 .page {
+  height: fit-content;
   width: 80%;
 }
 
@@ -374,6 +380,9 @@ $font-scale: (
     .p-bottom-#{$i} {
       padding-bottom: #{$i}px;
     }
+    .gap-#{$i} {
+      gap: #{$i}px;
+    }
   }
 
   .font-large {
@@ -403,3 +412,18 @@ $font-scale: (
 
 @include general-style;
 /**************General-Style****************/
+
+/**************TrackingSearch-Style****************/
+.tracking-layout {
+  display: flex !important;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-around;
+  padding: 16px !important;
+  gap: 16px;
+}
+
+.qr-image {
+  max-width: 200px !important;
+}
+/**************TrackingSearch-Style****************/

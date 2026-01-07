@@ -44,7 +44,7 @@
 
   <mat-sidenav-container hasBackdrop="false">
     <mat-sidenav mode="over" opened [ngClass]="isOpenDrawer() ? 'active' : ''">
-      <mat-nav-list>
+      <mat-nav-list routerLink="/add" routerLinkActive="active">
         <mat-list-item>
           <mat-icon matListItemIcon>add</mat-icon>
           <span>Add</span>
