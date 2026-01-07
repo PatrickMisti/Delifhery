@@ -16,6 +16,17 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} fr
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatSlider} from '@angular/material/slider';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 export const MATERIAL_BASICS = [
   MatIcon,
@@ -71,4 +82,19 @@ export const MATERIAL_FORM = [
   MatHint,
   MatError,
   MatCardActions
+];
+
+export const MATERIAL_TABLE = [
+  MatTabGroup,
+  MatTab,
+  MatTable,
+  MatColumnDef,
+  MatRowDef,
+  MatHeaderCell,
+  MatCell,
+  MatHeaderRow,
+  MatRow,
+  MatHeaderCellDef,
+  MatCellDef,
+  MatHeaderRowDef
 ];

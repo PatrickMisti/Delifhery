@@ -43,7 +43,7 @@ class UserService implements IUserService {
 
   async login() {
     console.log('user service login called', this._loginService.isLoggedIn(), this._currentUser.value);
-    if (this._loginService.isLoggedIn() && this._currentUser.value) return;
+    if (this._loginService.isLoggedIn() && this._currentUser?.value) return;
 
     if (this._loginService.isLoggedIn() && !this._currentUser.value) {
       await this._setCurrentUser();
@@ -135,6 +135,7 @@ class UserService implements IUserService {
       );
     } catch (error) {
       console.error('Error fetching current user:', error);
+      await this._loginService.logout();
       return null;
     }
   }

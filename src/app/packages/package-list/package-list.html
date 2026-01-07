@@ -1,0 +1,36 @@
+@if (dataSource() == null || dataSource()?.length === 0) {
+  <p>Keine Pakete gefunden.</p>
+} @else {
+  <table mat-table [dataSource]="dataSource()!" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="receivername">
+      <th mat-header-cell *matHeaderCellDef> Empfängername </th>
+      <td mat-cell *matCellDef="let element"> {{element.receiverName}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Preis </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.currentStatus}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="billstatus">
+      <th mat-header-cell *matHeaderCellDef> Zahlungstatus </th>
+      <td mat-cell *matCellDef="let element"> {{element.paymentStatus}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}
