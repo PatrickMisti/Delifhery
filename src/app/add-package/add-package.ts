@@ -42,8 +42,7 @@ type ShipmentForm = {
     ...MATERIAL_BASICS,
     ReactiveFormsModule,
     MatSuffix,
-    MatDivider,
-    MatProgressBar
+    MatDivider
   ],
   templateUrl: './add-package.html',
   styles: ``,
