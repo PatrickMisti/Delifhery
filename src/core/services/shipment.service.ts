@@ -5,8 +5,8 @@ import {catchError, Observable, of, switchMap} from "rxjs";
 import {UpdateShipReceiverDto} from './dto/update-ship-receiver-dto';
 import UserService from './user.service';
 import {ShipmentCreateDto} from './dto/shipment-create-dto';
-import {ResponsePackageReceiveDto} from './dto/response-package-receive-dto';
 import {GetAllShipmentsDto} from './dto/get-all-shipments-dto';
+import {CreatePaymentDto, CreateShipmentBillDto, GetShipmentBillDto} from './dto/create-shipment-bill-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -48,13 +48,49 @@ export class ShipmentService {
   }
 
   createShipment(shipmentData: ShipmentCreateDto) {
-    return this._http.post<ResponsePackageReceiveDto>('/api/shipment/external', shipmentData)
+    return this._http.post<Shipment>('/api/shipment', shipmentData)
       .pipe(
         catchError(err => {
           console.error('Error creating shipment:', err);
           return of(null);
         })
       );
+  }
+
+  createShipmentBill(bill: CreateShipmentBillDto){
+    return this._http.put<GetShipmentBillDto>('/api/shipment/bill', bill).pipe(
+      catchError(err => {
+        console.error('Error creating shipment bill:', err);
+        return of(null);
+      })
+    )
+  }
+
+  createShipmentBillResponse(shipmentData: ShipmentCreateDto) {
+    return this.createShipment(shipmentData).pipe(
+      switchMap(shipment => {
+        if (!shipment) {
+          return of(null);
+        }
+
+        const billDto = new CreateShipmentBillDto(
+          shipment.shipmentId,
+          shipment.trackingNumber,
+          shipmentData.redirectUrl
+        );
+
+        return this.createShipmentBill(billDto);
+      })
+    );
+  }
+
+  createPayment(payment: CreatePaymentDto) : Observable<string | null> {
+    return this._http.post<string>('/api/shipment/bill/pay', payment).pipe(
+      catchError(err => {
+        console.error('Error creating payment:', err);
+        return of(null);
+      })
+    );
   }
 
   getAllShipments(userId: number) {

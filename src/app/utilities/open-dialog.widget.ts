@@ -5,6 +5,8 @@ import {catchError, Observable, of} from 'rxjs';
 import {GeneralDialogWidget, ResultDialogWidget} from './general-dialog.widget';
 import {defaults} from 'chart.js';
 import {AddPackageDialogWidget} from './add-package-dialog.widget';
+import {Shipment} from '../../core/models/shipment';
+import {GetShipmentBillDto} from '../../core/services/dto/create-shipment-bill-dto';
 
 
 @Injectable({
@@ -63,5 +65,15 @@ export class ShipmentDialog implements DialogMessage {
     this.qrCodeData = qrCodeData;
     this.price = price;
     this.trackingNumber = trackingNumber;
+  }
+}
+
+export class ShipmentBillDialog implements DialogMessage {
+  public shipment: Shipment;
+  public bill: GetShipmentBillDto | null;
+
+  constructor(shipment: Shipment, bill?: GetShipmentBillDto) {
+    this.shipment = shipment;
+    this.bill = bill ?? null;
   }
 }

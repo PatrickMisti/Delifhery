@@ -1,4 +1,27 @@
-<p>{{ data.shipmentId }}</p>
-<p>{{ data.currentStatus }}</p>
-<p>{{ data.lengthCm }}</p>
-<p>{{ data.receiverName }}</p>
+<mat-card>
+  <mat-card-title>Details</mat-card-title>
+  <mat-card-content>
+    <table>
+      <tr>
+        <td>Empfänger</td>
+        <td>{{data.shipment.receiverName}}</td>
+      </tr>
+      <tr>
+        <td>PLZ</td>
+        <td>{{data.shipment.receiverAddress.postalCode}}</td>
+      </tr>
+      <tr>
+        <td>Ort</td>
+        <td>{{data.shipment.receiverAddress.city}}</td>
+      </tr>
+      <tr>
+        <td>Preis</td>
+        <td>{{data.shipment.price}}</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>{{data.shipment.currentStatus}}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

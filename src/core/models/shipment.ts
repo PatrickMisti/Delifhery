@@ -3,7 +3,7 @@ import {PaymentStatus, ShipmentStatus} from './enum-types';
 import {ShipmentStatusEntry} from './shipment-status-entry';
 import {DialogMessage} from '../../app/utilities/open-dialog.widget';
 
-export class Shipment implements DialogMessage{
+export class Shipment {
   constructor(
     public shipmentId: number,
     public trackingNumber: string,
