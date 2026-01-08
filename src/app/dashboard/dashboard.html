@@ -44,25 +44,25 @@
 
   <mat-sidenav-container hasBackdrop="false">
     <mat-sidenav mode="over" opened [ngClass]="isOpenDrawer() ? 'active' : ''">
-      <mat-nav-list routerLink="/add" routerLinkActive="active">
-        <mat-list-item>
+      <mat-nav-list #add [routerLink]="['/add']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-list-item [activated]="isActivateRoute() == '/add'" (click)="setActivatedRoute('/add')">
           <mat-icon matListItemIcon>add</mat-icon>
           <span>Add</span>
         </mat-list-item>
       </mat-nav-list>
 
       <mat-nav-list>
-        <mat-list-item routerLink="/packages" routerLinkActive="active">
+        <mat-list-item [routerLink]="['/packages']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [activated]="isActivateRoute() == '/packages'" (click)="setActivatedRoute('/packages')">
           <mat-icon matListItemIcon class="material-symbols-outlined">package_2</mat-icon>
           <span>Paket übersicht</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/calc" routerLinkActive="active">
+        <mat-list-item [routerLink]="['/calc']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [activated]="isActivateRoute() == '/calc'" (click)="setActivatedRoute('/calc')">
           <mat-icon matListItemIcon>calculate</mat-icon>
           <span>Paketpreis rechner</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/statistics" routerLinkActive="active">
+        <mat-list-item [routerLink]="['/statistics']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [activated]="isActivateRoute() == '/statistics'" (click)="setActivatedRoute('/statistics')">
           <mat-icon matListItemIcon>analytics</mat-icon>
           <span>Statistik</span>
         </mat-list-item>

@@ -1,7 +1,7 @@
 import {Component, computed, DOCUMENT, inject, input, OnDestroy, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import UserService from '../../core/services/user.service';
 import {Disposabled} from '../../core/utilities/disposabled';
 import {User} from '../../core/models/user';
@@ -31,6 +31,7 @@ export class Dashboard extends Disposabled implements OnDestroy {
   themeMode = signal(false);
   isDarkMode = computed(() => this.themeMode());
   document: Document = inject(DOCUMENT);
+  isActivateRoute = signal<string>('');
 
   private userService = inject(UserService);
   currentUser = signal<User | null>(null);
@@ -86,6 +87,11 @@ export class Dashboard extends Disposabled implements OnDestroy {
   async logout() {
     await this.userService.logout();
     console.log('Logged out');
+  }
+
+  setActivatedRoute(route: string) {
+    console.log(route);
+    this.isActivateRoute.set(route);
   }
 
   ngOnDestroy(): void {

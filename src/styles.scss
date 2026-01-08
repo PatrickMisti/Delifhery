@@ -215,6 +215,7 @@ body {
   list-item-hover-label-text-color: var(--mat-sys-primary-container),
   list-item-hover-state-layer-color: var(--mat-sys-secondary-container),
   list-item-hover-state-layer-opacity: .12,
+  //list-item-selected-container-color: var(--mat-sys-tertiary-container),
   //list-item-selected-container-color: var(--mat-sys-on-tertiary),
 ));
 
@@ -276,7 +277,14 @@ mat-sidenav-content {
     }
   }
 }
-/**************NavBar-Style****************/
+
+.mat-mdc-nav-list .mat-mdc-list-item.mdc-list-item--activated {
+  background-color: var(--mat-sys-tertiary-container) !important;
+  mat-icon {
+    color: var(--mat-sys-secondary) !important;
+  }
+}
+  /**************NavBar-Style****************/
 
 /**************Page-Style****************/
 app-packages,
