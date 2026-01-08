@@ -5,6 +5,9 @@ import {ShipmentBillDialog} from '../../utilities/open-dialog.widget';
 import {MATERIAL_BASICS, MATERIAL_FORM} from '../../../material-import';
 import {MatDivider} from '@angular/material/list';
 import {PaymentStatus} from '../../../core/models/enum-types';
+import {CreatePaymentDto} from '../../../core/services/dto/create-shipment-bill-dto';
+import {ShipmentService} from '../../../core/services/shipment.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-package-item',
@@ -20,6 +23,9 @@ export class PackageItem {
   private _dialog = inject(MatDialogRef<Shipment>);
   protected data = inject<ShipmentBillDialog>(MAT_DIALOG_DATA);
 
+  private _shipmentService = inject(ShipmentService);
+  private _snackbar = inject(MatSnackBar);
+
   closeDialog(): void {
     this._dialog.close();
   }
@@ -32,6 +38,21 @@ export class PackageItem {
   protected readonly PaymentStatus = PaymentStatus;
 
   payment() {
+    const paymentDto: CreatePaymentDto = {
+      shipmentId: this.data.shipment.shipmentId,
+      redirectUrl: window.location.origin + window.location.pathname,
+    };
 
+    this._shipmentService.createPayment(paymentDto)
+      .subscribe(response => {
+        if (!response) {
+          this._snackbar
+            .open("Zahlung konnte nicht initialisiert werden.", "Schließen", { duration: 5000 });
+          return;
+        }
+
+        console.log(response);
+        window.location.href = response.paymentUrl;
+      })
   }
 }

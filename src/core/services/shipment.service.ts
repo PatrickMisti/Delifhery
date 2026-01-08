@@ -1,12 +1,17 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Shipment} from '../models/shipment';
-import {catchError, Observable, of, switchMap} from "rxjs";
+import {catchError, map, Observable, of, switchMap} from "rxjs";
 import {UpdateShipReceiverDto} from './dto/update-ship-receiver-dto';
 import UserService from './user.service';
 import {ShipmentCreateDto} from './dto/shipment-create-dto';
 import {GetAllShipmentsDto} from './dto/get-all-shipments-dto';
-import {CreatePaymentDto, CreateShipmentBillDto, GetShipmentBillDto} from './dto/create-shipment-bill-dto';
+import {
+  CreatePaymentDto,
+  CreateShipmentBillDto,
+  GetPaymentUrlDto,
+  GetShipmentBillDto
+} from './dto/create-shipment-bill-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +67,12 @@ export class ShipmentService {
       catchError(err => {
         console.error('Error creating shipment bill:', err);
         return of(null);
+      }),
+      map(response => {
+        if (!response) {
+          return null;
+        }
+        return {res: response, id: bill.shipmentId};
       })
     )
   }
@@ -84,8 +95,8 @@ export class ShipmentService {
     );
   }
 
-  createPayment(payment: CreatePaymentDto) : Observable<string | null> {
-    return this._http.post<string>('/api/shipment/bill/pay', payment).pipe(
+  createPayment(payment: CreatePaymentDto) : Observable<GetPaymentUrlDto | null> {
+    return this._http.post<GetPaymentUrlDto>('/api/shipment/bill/pay', payment).pipe(
       catchError(err => {
         console.error('Error creating payment:', err);
         return of(null);

@@ -12,8 +12,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
     ...MATERIAL_FORM
   ],
   template: `
-    <mat-card>
-      <mat-card-header>{{data.title}}</mat-card-header>
+    <mat-card class="p-16">
+      <mat-card-title>{{data.title}}</mat-card-title>
 
       <mat-card-content>{{data.message}}</mat-card-content>
       <mat-card-actions>

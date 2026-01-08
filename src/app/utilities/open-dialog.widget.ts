@@ -52,13 +52,15 @@ export class DataDialog implements DialogMessage  {
 }
 
 export class ShipmentDialog implements DialogMessage {
+  public shipmentId: number;
   public title: string;
   public message: string;
   public qrCodeData: string;
   public price: number;
   public trackingNumber: string;
 
-  constructor(title: string, message: string, qrCodeData: string, price: number, trackingNumber: string) {
+  constructor(shipmentId: number, title: string, message: string, qrCodeData: string, price: number, trackingNumber: string) {
+    this.shipmentId = shipmentId;
     this.title = title;
     this.message = message;
     this.qrCodeData = qrCodeData;

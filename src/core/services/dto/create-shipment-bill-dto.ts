@@ -42,3 +42,13 @@ export class CreatePaymentDto {
     this.redirectUrl = redirectUrl;
   }
 }
+
+export class GetPaymentUrlDto {
+  public paymentUrl: string;
+
+  constructor(
+    paymentUrl: string
+  ) {
+    this.paymentUrl = paymentUrl;
+  }
+}

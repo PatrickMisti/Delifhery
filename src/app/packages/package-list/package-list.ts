@@ -31,10 +31,10 @@ export class PackageList {
       if (!bill){
         this._snackbar.open("Rechnung konnte nicht erstellt werden.", 'OK', {duration: 3000});
       }
-
+      shipment.shipmentId = bill!.id;
       this.showShipmentDetails({
         shipment: shipment,
-        bill: bill,
+        bill: bill?.res ?? null,
       })
     });
   }

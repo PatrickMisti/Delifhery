@@ -6,7 +6,7 @@ import {MatSuffix} from '@angular/material/input';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ShipmentService} from '../../core/services/shipment.service';
 import {Disposabled} from '../../core/utilities/disposabled';
-import {DataDialog, OpenDialogWidget} from '../utilities/open-dialog.widget';
+import {DataDialog, OpenDialogWidget, ShipmentDialog} from '../utilities/open-dialog.widget';
 import {MatDivider} from '@angular/material/list';
 import {ShipmentCreateDto} from '../../core/services/dto/shipment-create-dto';
 import UserService from '../../core/services/user.service';
@@ -159,16 +159,6 @@ export class AddPackage extends Disposabled implements OnDestroy {
       return;
     }
 
-    //todo validate form
-    /*public record CreateShipmentDto(
-    int SenderId,
-    CreateAddressDto ReceiverAddress,
-    string ReceiverName,
-    decimal WidthCm,
-    decimal LengthCm,
-    decimal HeightCm,
-    decimal WeightCm,
-    bool Notification);*/
     const shipmentData: ShipmentCreateDto = {
       receiverName: currentForm.receiverName || '',
       receiverAddress: {
@@ -196,29 +186,35 @@ export class AddPackage extends Disposabled implements OnDestroy {
           this._snackbar.open('Error creating shipment. Please try again.', 'Close', {duration: 3000});
           return;
         }
-        this._createBill(value);
+        this._createBill(value.res, value.id);
         this.reset();
       });
   }
 
-  test() {
-    this._createBill({
-      qrCode: 'iVBORw0KGgoAAAANSUhEUgAAAuQAAALkAQAAAABv3x3IAAACaElEQVR4nO3bMVLEMAwF0Nxg739LbgADOEiylSwFNOungkli+yndH3vD8f6P9XbQ6XQ6nU6n0+l0Op1Op9PpdDqdTqfT6XT6K+rHXI/vGedVzDsHbpbR6XQ6nb69foeMPsfnbenYL6PT6XQ6nf6TwY98u7SI0TIvbul0Op1Op1/p+SpS+3IenU6n0+n0Kz22xCWwl/ym0+l0Op3+7JQ5Z/XXs6g/OMOm0+l0Ov2V9alKdN/8WZfR6XQ6nb693tXX9LEbnmr9DLmZQqfT6XT6rvqSwdN+N36znUa7wKbT6XQ6fXN9hHP8s045M+6blS3xNI9Op9Pp9O31Ueeq3DamTAPR52xBp9PpdPr2eobL2XIO7BLOsaIvOp1Op9P31fsMLrfTs1gRiU+n0+l0Ov2zBtLB5YA54FG/OmWm0+l0On1DfVydq0Ykx0Z4Cvb1fcKj0+l0On1n/XZbW7bEpW2M0ul0Op1O/6lYmoM44nw6fu6SPHrT6XQ6nb69Xja407PpLXKz7lXodDqdTqc30+KU+Rydeuf987MzbDqdTqfTd9OjxTS3VO4dp8xT0el0Op2+ud7dHm1FiJdndDqdTqfTryon+ZrL+QW6eXQ6nU6n76v3GTx9aNxFd5jPvzam0+l0On0bfd0N96vG0vI7bvlSik6n0+l0egrnx/KRVDZjykXE0+l0Op1Ov9Kjcp+zWc50Op1Op9Ppz/S89BwN6Tbi6XQ6nU7fWl9uV2SMrn1yftPpdDqdvr0+VQRxbHojukucd69Hp9PpdPrO+t8XnU6n0+l0Op1Op9PpdDqdTqfT6XQ6nU6nv7+O/gE6HM/lTCvltQAAAABJRU5ErkJggg==',
-      price: 9.99,
-      trackingId: 'TRACK123456789',
-      /*paymentUrl: "https://localhost:7172/payment/4?redirect-url=http://localhost:4200/add"*/
-    });
-  }
-
-  private _createBill(bill: GetShipmentBillDto) {
-    this._dialog.openShipmentDialog({
+  private _createBill(bill: GetShipmentBillDto, shipmentId: number) {
+    this._dialog.openShipmentDialog<ShipmentDialog, boolean>({
       title: 'Paket bezahlen',
       message: "Das Paket wurde erfolgreich erstellt.",
+      shipmentId: shipmentId,
       qrCodeData: bill.qrCode,
       price: bill.price,
       trackingNumber: bill.trackingId
-    });
-    console.log(bill);
+    })
+      .subscribe(pay => {
+        if (!pay) return;
+
+        this._shipmentService.createPayment({
+          shipmentId: shipmentId,
+          redirectUrl: window.location.origin + window.location.pathname,
+        }).subscribe(result => {
+          if (!result) {
+            this._snackbar.open('Fehler beim Erstellen der Zahlung. Bitte versuchen Sie es erneut.', 'Close', {duration: 3000});
+            return;
+          }
+
+          window.location.href = result.paymentUrl;
+        })
+      })
   }
 
   ngOnDestroy(): void {
