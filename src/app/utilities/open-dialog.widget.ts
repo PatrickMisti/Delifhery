@@ -1,9 +1,8 @@
 import {MatDialog} from '@angular/material/dialog';
 import {inject, Injectable} from '@angular/core';
 import {ComponentType} from '@angular/cdk/portal';
-import {catchError, Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {GeneralDialogWidget, ResultDialogWidget} from './general-dialog.widget';
-import {defaults} from 'chart.js';
 import {AddPackageDialogWidget} from './add-package-dialog.widget';
 import {Shipment} from '../../core/models/shipment';
 import {GetShipmentBillDto} from '../../core/services/dto/create-shipment-bill-dto';

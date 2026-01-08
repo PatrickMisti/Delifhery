@@ -1,7 +1,6 @@
 import {Address} from './address';
 import {PaymentStatus, ShipmentStatus} from './enum-types';
 import {ShipmentStatusEntry} from './shipment-status-entry';
-import {DialogMessage} from '../../app/utilities/open-dialog.widget';
 
 export class Shipment {
   constructor(
