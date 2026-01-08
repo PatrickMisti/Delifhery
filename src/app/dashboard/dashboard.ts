@@ -90,7 +90,6 @@ export class Dashboard extends Disposabled implements OnDestroy {
   }
 
   setActivatedRoute(route: string) {
-    console.log(route);
     this.isActivateRoute.set(route);
   }
 

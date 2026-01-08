@@ -8,8 +8,10 @@ import {
 export const authGuard: CanActivateFn = () => {
   const auth = inject(LoginService);
   const router = inject(Router);
-
-  return auth.isLoggedIn()
-    ? true
-    : router.createUrlTree(['/statistics']);
+  console.log("Auth Guard: is logged in? ", auth.isLoggedIn());
+  if (!auth.isLoggedIn()) {
+    auth.login();
+    return false;
+  }
+  return true;
 };
