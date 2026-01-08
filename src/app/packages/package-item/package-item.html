@@ -1,27 +1,39 @@
-<mat-card>
+<mat-card class="p-16">
   <mat-card-title>Details</mat-card-title>
   <mat-card-content>
-    <table>
-      <tr>
-        <td>Empfänger</td>
-        <td>{{data.shipment.receiverName}}</td>
-      </tr>
-      <tr>
-        <td>PLZ</td>
-        <td>{{data.shipment.receiverAddress.postalCode}}</td>
-      </tr>
-      <tr>
-        <td>Ort</td>
-        <td>{{data.shipment.receiverAddress.city}}</td>
-      </tr>
-      <tr>
-        <td>Preis</td>
-        <td>{{data.shipment.price}}</td>
-      </tr>
-      <tr>
-        <td>Status</td>
-        <td>{{data.shipment.currentStatus}}</td>
-      </tr>
-    </table>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">Empfänger</span>
+      <span>{{ data.shipment.receiverName }}</span>
+    </div>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">PLZ</span>
+      <span>{{ data.shipment.receiverAddress.postalCode }}</span>
+    </div>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">Ort</span>
+      <span>{{ data.shipment.receiverAddress.city }}</span>
+    </div>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">Preis</span>
+      <span>{{ data.shipment.price }}</span>
+    </div>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">Status</span>
+      <span>{{ data.shipment.currentStatus }}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-card class="p-8">
+      @for (item of sortStatusEntries(); track item) {
+        <div>
+          <strong class="p-right-30">{{ item.status }}</strong> {{ item.additionalInfo }}
+        </div>
+      }
+    </mat-card>
   </mat-card-content>
+  <mat-card-actions align="end">
+    @if (data.shipment.paymentStatus != PaymentStatus.Paid) {
+      <button mat-button (click)="payment()">Zahlen</button>
+    }
+    <button mat-button (click)="closeDialog()">Schließen</button>
+  </mat-card-actions>
 </mat-card>

@@ -4,9 +4,7 @@ import {Shipment} from '../../../core/models/shipment';
 import {OpenDialogWidget, ShipmentBillDialog} from '../../utilities/open-dialog.widget';
 import {PackageItem} from '../package-item/package-item';
 import {ShipmentService} from '../../../core/services/shipment.service';
-import {PaymentStatus} from '../../../core/models/enum-types';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {GetShipmentBillDto} from '../../../core/services/dto/create-shipment-bill-dto';
 
 @Component({
   selector: 'app-package-list',
@@ -33,7 +31,7 @@ export class PackageList {
       if (!bill){
         this._snackbar.open("Rechnung konnte nicht erstellt werden.", 'OK', {duration: 3000});
       }
-      console.log(shipment, bill);
+
       this.showShipmentDetails({
         shipment: shipment,
         bill: bill,
