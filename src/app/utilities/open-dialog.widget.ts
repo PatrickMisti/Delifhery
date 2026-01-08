@@ -19,6 +19,8 @@ export class OpenDialogWidget {
     const dialogRef = this._dialog.open<T,D,R>(type,{
       data: data,
       disableClose: disableOutBound,
+      minWidth: '400px',
+
     });
 
     return dialogRef.afterClosed();

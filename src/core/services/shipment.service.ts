@@ -34,6 +34,17 @@ export class ShipmentService {
     );
   }
 
+  getShipmentByTrackingNumber(trackingNumber: string) : Observable<Shipment | null> {
+    return this._http.get<Shipment>(`/api/shipment/track/${trackingNumber}`).pipe(
+      catchError(err => {
+        console.error('Error fetching shipment:', err);
+        return of(null);
+      })
+    );
+  }
+
+
+
   addTrackingNumberToReceiver(trackingNumber: string) : Observable<boolean> {
     const currentUser = this._userService.isCurrentUser$()?.value;
     if (!currentUser) return of(false);
@@ -83,13 +94,7 @@ export class ShipmentService {
         if (!shipment) {
           return of(null);
         }
-
-        const billDto = new CreateShipmentBillDto(
-          shipment.shipmentId,
-          shipment.trackingNumber,
-          shipmentData.redirectUrl
-        );
-
+        const billDto = new CreateShipmentBillDto(shipment.shipmentId, shipment.trackingNumber);
         return this.createShipmentBill(billDto);
       })
     );

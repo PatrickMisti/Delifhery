@@ -1,16 +1,13 @@
 export class CreateShipmentBillDto {
   public shipmentId: number;
   public trackingNumber: string;
-  public redirectUrl: string;
 
   constructor(
     shipmentId: number,
     trackingNumber: string,
-    redirectUrl: string
   ) {
     this.shipmentId = shipmentId;
     this.trackingNumber = trackingNumber;
-    this.redirectUrl = redirectUrl;
   }
 }
 

@@ -7,19 +7,23 @@
     </div>
     <div layout="row" layout-align="start center">
       <span flex-ng="50">PLZ</span>
-      <span>{{ data.shipment.receiverAddress.postalCode }}</span>
+      <span flex-ng="50">{{ data.shipment.receiverAddress.postalCode }}</span>
     </div>
     <div layout="row" layout-align="start center">
       <span flex-ng="50">Ort</span>
-      <span>{{ data.shipment.receiverAddress.city }}</span>
+      <span flex-ng="50">{{ data.shipment.receiverAddress.city }}</span>
     </div>
     <div layout="row" layout-align="start center">
       <span flex-ng="50">Preis</span>
-      <span>{{ data.shipment.price }}</span>
+      <span flex-ng="50">{{ data.shipment.price }}</span>
     </div>
     <div layout="row" layout-align="start center">
       <span flex-ng="50">Status</span>
-      <span>{{ data.shipment.currentStatus }}</span>
+      <span flex-ng="50">{{ data.shipment.currentStatus }}</span>
+    </div>
+    <div layout="row" layout-align="start center">
+      <span flex-ng="50">TrackingNr.</span>
+      <span flex-ng="50">{{ data.shipment.trackingNumber }}</span>
     </div>
     <mat-divider></mat-divider>
     <mat-card class="p-8">

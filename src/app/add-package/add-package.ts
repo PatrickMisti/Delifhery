@@ -106,8 +106,16 @@ export class AddPackage extends Disposabled implements OnDestroy {
           return;
         }
 
-        //todo open dialog with shipment detials if not logged in
-        if(!this.isLoggedIn) {
+        if (!this.isLoggedIn) {
+          this.subSink = this._shipmentService.getShipmentByTrackingNumber(trackingNumber)
+            .subscribe(shipment => {
+              if (!shipment) {
+                this._snackbar.open("No package found with the provided tracking number.", 'Close', {duration: 3000});
+                return;
+              }
+              this.subSink = this._shipmentService.createShipmentBill({shipmentId: shipment.shipmentId, trackingNumber: trackingNumber})
+                .subscribe(res => this._showShipmentDetails(res?.res, res?.id));
+            })
           return;
         }
         this._dialog.openResultDialog<DataDialog, boolean>({
@@ -115,6 +123,32 @@ export class AddPackage extends Disposabled implements OnDestroy {
           message: 'Möchten Sie dieses Paket zu Ihrem Konto hinzufügen?'
         }).subscribe(result => this._updateShipmentToReceiver(trackingNumber, result!));
       });
+  }
+
+  private _showShipmentDetails(shipment?: GetShipmentBillDto, id?: number) {
+    if (!shipment || !id) return;
+
+    this.subSink = this._dialog.openShipmentDialog({
+      shipmentId: id,
+      title: 'Paket Details',
+      message: 'Details zu dem gefundenen Paket:',
+      qrCodeData: shipment!.qrCode,
+      price: shipment!.price,
+      trackingNumber: shipment!.trackingId
+    }).subscribe(value => {
+      if (!value) return;
+
+      this.subSink = this._shipmentService.createPayment({
+        shipmentId: id,
+        redirectUrl: window.location.origin + window.location.pathname,
+      }).subscribe(result => {
+        if (!result) {
+          this._snackbar.open('Fehler beim Erstellen der Zahlung. Bitte versuchen Sie es erneut.', 'Close', {duration: 3000});
+          return;
+        }
+        window.location.href = result.paymentUrl;
+      });
+    })
   }
 
   private _updateShipmentToReceiver(trackingNumber: string, result: boolean | undefined) {

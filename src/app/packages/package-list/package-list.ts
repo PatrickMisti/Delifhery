@@ -25,8 +25,7 @@ export class PackageList {
   selectedShipment(shipment: Shipment) {
     this._shipments.createShipmentBill({
       shipmentId: shipment.shipmentId,
-      trackingNumber: shipment.trackingNumber,
-      redirectUrl: window.location.origin + window.location.pathname
+      trackingNumber: shipment.trackingNumber
     }).subscribe(bill => {
       if (!bill){
         this._snackbar.open("Rechnung konnte nicht erstellt werden.", 'OK', {duration: 3000});
