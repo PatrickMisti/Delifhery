@@ -43,8 +43,6 @@ export class ShipmentService {
     );
   }
 
-
-
   addTrackingNumberToReceiver(trackingNumber: string) : Observable<boolean> {
     const currentUser = this._userService.isCurrentUser$()?.value;
     if (!currentUser) return of(false);
