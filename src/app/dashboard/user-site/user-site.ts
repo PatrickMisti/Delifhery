@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import UserService from '../../../core/services/user.service';
 import {MATERIAL_BASICS, MATERIAL_FORM} from '../../../material-import';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -33,7 +33,7 @@ type UserForm = {
   ],
   templateUrl: './user-site.html',
 })
-export class UserSite extends Disposabled implements OnDestroy {
+export class UserSite extends Disposabled implements OnDestroy,OnInit {
   private _dialogRef = inject(MatDialogRef<UserSite>);
   private _snackBar = inject(MatSnackBar);
 
@@ -54,7 +54,9 @@ export class UserSite extends Disposabled implements OnDestroy {
         zip: new FormControl("")
       })
     });
+  }
 
+  ngOnInit() {
     this.subSink = this._userService
       .isCurrentUser$()
       .subscribe(user => this.updateForm(user));

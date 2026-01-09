@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_FORM} from '../../material-import';
 import {LoadingWidget} from '../utilities/loading.widget';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -46,7 +46,7 @@ type ShipmentForm = {
   templateUrl: './add-package.html',
   styles: ``,
 })
-export class AddPackage extends Disposabled implements OnDestroy {
+export class AddPackage extends Disposabled implements OnDestroy, OnInit {
   private _loading = inject(LoadingWidget);
   private _snackbar = inject(MatSnackBar);
   private _dialog = inject(OpenDialogWidget)
@@ -79,7 +79,9 @@ export class AddPackage extends Disposabled implements OnDestroy {
         weight: this.fb.control(null, [Validators.required, Validators.min(0), Validators.max(30)])
       })
     });
+  }
 
+  ngOnInit() {
     this.subSink = this._userService.isCurrentUser$()
       .subscribe(user => this.isLoggedIn = !!user);
 

@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnDestroy, signal} from '@angular/core';
+import {Component, effect, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {MATERIAL_FORM, MATERIAL_TABLE} from '../../material-import';
 import {PackageList} from './package-list/package-list';
 import UserService from '../../core/services/user.service';
@@ -19,7 +19,7 @@ import {Shipment} from '../../core/models/shipment';
   ],
   templateUrl: './packages.html',
 })
-export class Packages extends Disposabled implements OnDestroy {
+export class Packages extends Disposabled implements OnDestroy, OnInit {
 
   private _userService = inject(UserService);
   private _shipmentService = inject(ShipmentService);
@@ -30,7 +30,14 @@ export class Packages extends Disposabled implements OnDestroy {
 
   constructor() {
     super();
+    effect(() => {
+      if (this.isLoggedIn()) {
+        this._getShipments();
+      }
+    });
+  }
 
+  ngOnInit(): void {
     this.subSink = this._userService.isCurrentUser$()
       .subscribe(isCurrentUser => {
         if (this.isLoggedIn() || isCurrentUser == null) return;
@@ -42,12 +49,6 @@ export class Packages extends Disposabled implements OnDestroy {
       this.isLoggedIn.set(true);
       this._currentUser = this._userService.isCurrentUser$().value;
     }
-
-    effect(() => {
-      if (this.isLoggedIn()) {
-        this._getShipments();
-      }
-    });
   }
 
   getAllShipmentsTogether(): Shipment[] {

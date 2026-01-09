@@ -1,4 +1,4 @@
-import {Component, computed, DOCUMENT, effect, inject, input, OnDestroy, signal} from '@angular/core';
+import {Component, computed, DOCUMENT, effect, inject, input, OnDestroy, OnInit, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
@@ -22,7 +22,7 @@ import {UserSite} from './user-site/user-site';
   templateUrl: './dashboard.html',
   styles: ``,
 })
-export class Dashboard extends Disposabled implements OnDestroy {
+export class Dashboard extends Disposabled implements OnDestroy, OnInit {
   title = input<String>();
 
   drawer = signal(false);
@@ -42,6 +42,16 @@ export class Dashboard extends Disposabled implements OnDestroy {
 
   constructor() {
     super();
+    effect(() => {
+      if (!this.currentUser() && this._router.url === "/") {
+
+        this.isActivateRoute.set("/add");
+        this._router.navigate([this.isActivateRoute()]);
+      }
+    });
+  }
+
+  ngOnInit(): void {
     this.registration();
   }
 
@@ -55,14 +65,6 @@ export class Dashboard extends Disposabled implements OnDestroy {
     if (this.userService.isAuthenticated()){
       this.userService.loadCurrentUser().then();
     }
-
-    effect(() => {
-      if (!this.currentUser() && this._router.url === "/") {
-
-        this.isActivateRoute.set("/add");
-        this._router.navigate([this.isActivateRoute()]);
-      }
-    });
   }
 
   toggleDrawer() {

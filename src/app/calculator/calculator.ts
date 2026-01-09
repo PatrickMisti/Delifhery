@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_FORM, MATERIAL_STEPPER} from '../../material-import';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -55,7 +55,7 @@ type CalcFrom = {
   ],
   templateUrl: './calculator.html',
 })
-export class Calculator extends Disposabled implements OnDestroy {
+export class Calculator extends Disposabled implements OnDestroy, OnInit {
   private _snackBar = inject(MatSnackBar);
   @ViewChild('stepper') stepper!: MatStepper;
 
@@ -105,7 +105,9 @@ export class Calculator extends Disposabled implements OnDestroy {
       }),
       package: this.packageForm,
     });
+  }
 
+  ngOnInit(): void {
     this.subSink = this._userService.isCurrentUser$()
       .subscribe(value => {
         this.checkUserAddressOrigin(value);
