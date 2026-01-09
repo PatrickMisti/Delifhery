@@ -3,13 +3,15 @@ import {MATERIAL_FORM} from '../../material-import';
 import {BaseChartDirective} from 'ng2-charts';
 import 'chart.js/auto';
 import {ChartData} from 'chart.js';
+import {StatisticChart} from './statistic-chart/statistic-chart';
 
 @Component({
   selector: 'app-statistic',
   standalone: true,
   imports: [
     ...MATERIAL_FORM,
-    BaseChartDirective
+    BaseChartDirective,
+    StatisticChart
   ],
   templateUrl: './statistic.html',
 })

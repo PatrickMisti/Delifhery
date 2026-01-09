@@ -1,35 +1,20 @@
-<div class="page" layout="row">
-  <div>
-    <div layout="row">
-      <mat-card flex>
-        <mat-card-header>
-          <mat-card-title>
-            Alle Pakete
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas
-            baseChart
-            [data]="chartData"
-            [type]="'doughnut'">
-          </canvas>
-        </mat-card-content>
-      </mat-card>
-      <mat-card flex>
-        <mat-card-header>
-          <mat-card-title>
-            Alle Pakete
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas
-            baseChart
-            [data]="chartData"
-            [type]="'bar'">
-          </canvas>
-        </mat-card-content>
-      </mat-card>
-    </div>
+<div class="page p-16" layout="row">
+  <div layout="row" class="gap-16">
+    <app-statistic-chart [title]="'Alle Pakete'" [chartData]="chartData" [chartType]="'doughnut'"></app-statistic-chart>
+    <mat-card flex>
+      <mat-card-header>
+        <mat-card-title>
+          Alle Pakete
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <canvas
+          baseChart
+          [data]="chartData"
+          [type]="'bar'">
+        </canvas>
+      </mat-card-content>
+    </mat-card>
   </div>
 
 </div>
