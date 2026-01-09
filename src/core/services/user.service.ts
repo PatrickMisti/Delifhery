@@ -1,5 +1,4 @@
 import {inject, Injectable} from '@angular/core';
-import {IUserService} from './interfaces';
 import {User} from "../models/user";
 import {HttpClient} from '@angular/common/http';
 import {
@@ -21,7 +20,7 @@ import {UpdateUserDto} from './dto/update-user-dto';
 @Injectable({
   providedIn: 'root',
 })
-class UserService implements IUserService {
+class UserService {
 
   private _http: HttpClient = inject(HttpClient);
   private _loginService = inject(LoginService);
