@@ -6,7 +6,7 @@ import {MatSuffix} from '@angular/material/input';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ShipmentService} from '../../core/services/shipment.service';
 import {Disposabled} from '../../core/utilities/disposabled';
-import {DataDialog, OpenDialogWidget, ShipmentDialog} from '../utilities/open-dialog.widget';
+import {DataDialog, OpenDialogWidget, ShipmentDialog, ShowShipmentOrPayment} from '../utilities/open-dialog.widget';
 import {MatDivider} from '@angular/material/list';
 import {ShipmentCreateDto} from '../../core/services/dto/shipment-create-dto';
 import UserService from '../../core/services/user.service';
@@ -107,21 +107,25 @@ export class AddPackage extends Disposabled implements OnDestroy {
         }
 
         if (!this.isLoggedIn) {
-          this.subSink = this._shipmentService.getShipmentByTrackingNumber(trackingNumber)
-            .subscribe(shipment => {
-              if (!shipment) {
-                this._snackbar.open("No package found with the provided tracking number.", 'Close', {duration: 3000});
-                return;
-              }
-              this.subSink = this._shipmentService.createShipmentBill({shipmentId: shipment.shipmentId, trackingNumber: trackingNumber})
-                .subscribe(res => this._showShipmentDetails(res?.res, res?.id));
-            })
+          this._prepareShipmentDetails(trackingNumber);
           return;
         }
-        this._dialog.openResultDialog<DataDialog, boolean>({
+        this._dialog.openResultDialog<DataDialog, ShowShipmentOrPayment>({
           title: 'Paket gefunden',
           message: 'Möchten Sie dieses Paket zu Ihrem Konto hinzufügen?'
         }).subscribe(result => this._updateShipmentToReceiver(trackingNumber, result!));
+      });
+  }
+
+  private _prepareShipmentDetails(trackingNumber: string) {
+    this.subSink = this._shipmentService.getShipmentByTrackingNumber(trackingNumber)
+      .subscribe(shipment => {
+        if (!shipment) {
+          this._snackbar.open("No package found with the provided tracking number.", 'Close', {duration: 3000});
+          return;
+        }
+        this.subSink = this._shipmentService.createShipmentBill({shipmentId: shipment.shipmentId, trackingNumber: trackingNumber})
+          .subscribe(res => this._showShipmentDetails(res?.res, res?.id));
       });
   }
 
@@ -151,8 +155,13 @@ export class AddPackage extends Disposabled implements OnDestroy {
     })
   }
 
-  private _updateShipmentToReceiver(trackingNumber: string, result: boolean | undefined) {
-    if (result === false || !this.isLoggedIn) {
+  private _updateShipmentToReceiver(trackingNumber: string, result: ShowShipmentOrPayment | undefined) {
+    if (result == undefined || result === ShowShipmentOrPayment.NOTHING || !this.isLoggedIn) {
+      return;
+    }
+
+    if (result === ShowShipmentOrPayment.SHOW_SHIPMENT) {
+      this._prepareShipmentDetails(trackingNumber);
       return;
     }
 

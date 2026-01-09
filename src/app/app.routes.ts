@@ -6,7 +6,7 @@ import {AddPackage} from './add-package/add-package';
 import {authGuard} from '../core/services/can-activate-user-guard.service';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'packages', pathMatch: 'full'},
+  {path: '', redirectTo: 'add', pathMatch: 'full'},
   {path: 'add', component: AddPackage},
   {path: "packages", component: Packages, canActivate: [authGuard]},
   {path: "calc", component: Calculator},

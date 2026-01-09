@@ -1,7 +1,7 @@
-import {Component, computed, DOCUMENT, inject, input, OnDestroy, signal} from '@angular/core';
+import {Component, computed, DOCUMENT, effect, inject, input, OnDestroy, signal} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_DASHBOARD, MATERIAL_NAVBAR} from '../../material-import';
 import {NgClass} from '@angular/common';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import UserService from '../../core/services/user.service';
 import {Disposabled} from '../../core/utilities/disposabled';
 import {User} from '../../core/models/user';
@@ -36,6 +36,8 @@ export class Dashboard extends Disposabled implements OnDestroy {
   private userService = inject(UserService);
   currentUser = signal<User | null>(null);
 
+  private _router = inject(Router);
+
   private _dialog = inject(OpenDialogWidget);
 
   constructor() {
@@ -53,6 +55,14 @@ export class Dashboard extends Disposabled implements OnDestroy {
     if (this.userService.isAuthenticated()){
       this.userService.loadCurrentUser().then();
     }
+
+    effect(() => {
+      if (!this.currentUser() && this._router.url === "/") {
+
+        this.isActivateRoute.set("/add");
+        this._router.navigate([this.isActivateRoute()]);
+      }
+    });
   }
 
   toggleDrawer() {

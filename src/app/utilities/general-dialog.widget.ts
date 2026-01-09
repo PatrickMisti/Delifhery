@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_FORM} from '../../material-import';
-import {DataDialog} from './open-dialog.widget';
+import {DataDialog, OpenDialogWidget, ShowShipmentOrPayment} from './open-dialog.widget';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 
@@ -46,6 +46,7 @@ export class GeneralDialogWidget {
       <mat-card-content>{{data.message}}</mat-card-content>
       <mat-card-actions>
         <button mat-button (click)="closeCancel()">Zurück</button>
+        <button mat-button (click)="closeAndOpenInfo()">Info</button>
         <button mat-button color="primary" (click)="closeOk()">OK</button>
       </mat-card-actions>
     </mat-card>
@@ -56,10 +57,14 @@ export class ResultDialogWidget {
   private dialogRef = inject(MatDialogRef<GeneralDialogWidget>);
 
   closeCancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(ShowShipmentOrPayment.NOTHING);
+  }
+
+  closeAndOpenInfo(): void {
+    this.dialogRef.close(ShowShipmentOrPayment.SHOW_SHIPMENT);
   }
 
   closeOk(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close(ShowShipmentOrPayment.SHOW_PAYMENT);
   }
 }

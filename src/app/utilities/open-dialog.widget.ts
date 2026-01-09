@@ -80,3 +80,9 @@ export class ShipmentBillDialog implements DialogMessage {
     this.bill = bill ?? null;
   }
 }
+
+export enum ShowShipmentOrPayment {
+  SHOW_SHIPMENT,
+  SHOW_PAYMENT,
+  NOTHING
+}

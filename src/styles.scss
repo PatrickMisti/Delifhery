@@ -280,6 +280,9 @@ mat-sidenav-content {
 
 .mat-mdc-nav-list .mat-mdc-list-item.mdc-list-item--activated {
   background-color: var(--mat-sys-tertiary-container) !important;
+  span {
+    color: var(--mat-sys-secondary) !important;
+  }
   mat-icon {
     color: var(--mat-sys-secondary) !important;
   }
