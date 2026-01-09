@@ -1,6 +1,6 @@
 import {inject} from '@angular/core';
 import {LoginService} from './login.service';
-import {CanActivateFn, Router} from '@angular/router';
+import {CanActivateFn} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 export const authGuard: CanActivateFn = () => {

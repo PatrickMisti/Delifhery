@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MATERIAL_BASICS, MATERIAL_FORM} from '../../material-import';
-import {DataDialog, OpenDialogWidget, ShowShipmentOrPayment} from './open-dialog.widget';
+import {DataDialog, ShowShipmentOrPayment} from './open-dialog.widget';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 
