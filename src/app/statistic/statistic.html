@@ -1,6 +1,32 @@
-<div class="page p-16" layout="row">
-  <div layout="row" class="gap-16">
-    <app-statistic-chart [title]="'Alle Pakete'" [chartData]="chartData" [chartType]="'doughnut'"></app-statistic-chart>
-    <app-statistic-chart [title]="'Alle Pakete'" [chartData]="chartData" [chartType]="'bar'"></app-statistic-chart>
-  </div>
+<div class="page p-16" layout="row" layout-align="center center">
+  @defer (when isLoading$) {
+    @let shipments = isLoading$ | async;
+    <div class="wrapper gap-16" layout-align="center center">
+      <app-statistic-chart
+        [title]="'Paketstatus gesendet'"
+        [chartData]="processShipmentsForShipmentStatus(shipments!.sendShipment)"
+        [chartType]="'doughnut'"></app-statistic-chart>
+      <app-statistic-chart
+        [title]="'Paketstatus bekommen'"
+        [chartData]="processShipmentsForShipmentStatus(shipments!.receiveShipment)"
+        [chartType]="'doughnut'"></app-statistic-chart>
+      <app-statistic-chart
+        [title]="'Paketstatus aller'"
+        [chartData]="processShipmentsForShipmentStatus([shipments!.receiveShipment, shipments!.sendShipment].flat())"
+        [chartType]="'doughnut'"></app-statistic-chart>
+      <app-statistic-chart
+        [title]="'Zahlungsstatus'"
+        [chartData]="processPaymentStatus([shipments!.receiveShipment, shipments!.sendShipment].flat())"
+        [chartType]="'bar'"></app-statistic-chart>
+      <app-statistic-chart
+        [title]="'Versendete Pakete nach PLZ'"
+        [chartData]="processGroupByPlz(shipments!.sendShipment)"
+        [chartType]="'bar'"></app-statistic-chart>
+    </div>
+  } @error {
+    <div flex layout="row" layout-align="center center" style="height: fit-content">
+      <p>Keine Daten gefunden!</p>
+    </div>
+  }
+
 </div>

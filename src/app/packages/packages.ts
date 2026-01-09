@@ -8,6 +8,8 @@ import {User} from '../../core/models/user';
 import {GetAllShipmentsDto} from '../../core/services/dto/get-all-shipments-dto';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Shipment} from '../../core/models/shipment';
+import {Observable} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-packages',
@@ -15,7 +17,8 @@ import {Shipment} from '../../core/models/shipment';
     ...MATERIAL_TABLE,
     ...MATERIAL_FORM,
     PackageList,
-    MatProgressSpinner
+    MatProgressSpinner,
+    AsyncPipe
   ],
   templateUrl: './packages.html',
 })
@@ -26,7 +29,7 @@ export class Packages extends Disposabled implements OnDestroy, OnInit {
 
   isLoggedIn = signal<boolean>(false);
   private _currentUser: User | null = null;
-  shipments = signal<GetAllShipmentsDto | null>(null)
+  shipmentsLoading$?: Observable<GetAllShipmentsDto>;
 
   constructor() {
     super();
@@ -51,9 +54,9 @@ export class Packages extends Disposabled implements OnDestroy, OnInit {
     }
   }
 
-  getAllShipmentsTogether(): Shipment[] {
-    const data = this.shipments()?.sendShipment ?? [];
-    data.push(...this.shipments()?.receiveShipment ?? []);
+  getAllShipmentsTogether(shipments: GetAllShipmentsDto | null): Shipment[] {
+    const data = shipments?.sendShipment ?? [];
+    data.push(...shipments?.receiveShipment ?? []);
     return data;
   }
 
@@ -62,10 +65,7 @@ export class Packages extends Disposabled implements OnDestroy, OnInit {
       return;
     }
 
-    this.subSink = this._shipmentService.getAllShipments(this._currentUser.userId)
-      .subscribe(shipments => {
-        this.shipments.set(shipments);
-      });
+    this.shipmentsLoading$ = this._shipmentService.getAllShipments(this._currentUser.userId);
   }
 
   ngOnDestroy(): void {

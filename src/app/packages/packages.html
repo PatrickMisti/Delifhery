@@ -1,26 +1,31 @@
-<div class="page p-16">
-  <mat-card>
-    @if (!isLoggedIn()) {
-      <span>Bitte melde dich an, um deine Pakete zu sehen.</span>
-    } @else {
-      @defer (when shipments() != null) {
+<div class="page p-16" style="height: auto;">
+
+  @if (!isLoggedIn()) {
+    <span>Bitte melde dich an, um deine Pakete zu sehen.</span>
+  } @else {
+    @defer (when shipmentsLoading$ | async) {
+      @let shipments = shipmentsLoading$ | async;
+      <mat-card>
         <mat-tab-group class="p-16">
           <mat-tab label="All Pakete">
-            <app-package-list [dataSource]="getAllShipmentsTogether()"></app-package-list>
+            <app-package-list [dataSource]="getAllShipmentsTogether(shipments)"></app-package-list>
           </mat-tab>
           <mat-tab label="Bekommene Pakete">
-            <app-package-list [dataSource]="shipments()?.receiveShipment"></app-package-list>
+            <app-package-list [dataSource]="shipments?.receiveShipment"></app-package-list>
           </mat-tab>
           <mat-tab label="Versende Pakete">
-            <app-package-list [dataSource]="shipments()?.sendShipment"></app-package-list>
+            <app-package-list [dataSource]="shipments?.sendShipment"></app-package-list>
           </mat-tab>
 
         </mat-tab-group>
-      } @placeholder (minimum  500ms) {
-        <mat-spinner layout-align="center center"></mat-spinner>
-      }
-
+      </mat-card>
+    } @placeholder (minimum 500ms) {
+      <div layout-align="center center" style="height: 100%">
+        <mat-spinner></mat-spinner>
+      </div>
     }
-  </mat-card>
+
+  }
+
 </div>
 

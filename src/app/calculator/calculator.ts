@@ -10,6 +10,7 @@ import {MatSuffix} from '@angular/material/input';
 import {MatStepper} from '@angular/material/stepper';
 import {OpenDialogWidget} from '../utilities/open-dialog.widget';
 import {PackageService} from '../../core/services/package.service';
+import {LoadingWidget} from '../utilities/loading.widget';
 
 type AddressForm = {
   street: FormControl<string | null>;
@@ -68,6 +69,7 @@ export class Calculator extends Disposabled implements OnDestroy, OnInit {
   private _userService = inject(UserService);
   private _packageService = inject(PackageService);
   private _dialog = inject(OpenDialogWidget);
+  private _loading = inject(LoadingWidget);
 
   constructor(private fb: FormBuilder) {
     super();
@@ -135,12 +137,17 @@ export class Calculator extends Disposabled implements OnDestroy, OnInit {
   }
 
   calculatePrice() {
+    this._loading.loading();
     const dto = this._upsetCalculate();
-    if (!dto) return;
+    if (!dto) {
+      this._loading.end();
+      return;
+    }
 
     this.subSink = this._packageService.calculatePackageCost(dto)
       .subscribe({
         next: (price) => {
+          this._loading.end();
           this._dialog.openDefaultDialog(
             {
               title: "Price Calculation",
@@ -148,6 +155,7 @@ export class Calculator extends Disposabled implements OnDestroy, OnInit {
             });
         },
         error: (_) => {
+          this._loading.end();
           this._snackBar.open("Error calculating price", "Close");
         }
       });
