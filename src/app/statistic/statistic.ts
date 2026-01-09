@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import 'chart.js/auto';
 import {ChartData} from 'chart.js';
 import {StatisticChart} from './statistic-chart/statistic-chart';
