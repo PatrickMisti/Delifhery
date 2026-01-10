@@ -41,7 +41,7 @@ export class GeneralDialogWidget {
   ],
   template: `
     <mat-card>
-      <mat-card-header>{{data.title}}</mat-card-header>
+      <mat-card-title>{{data.title}}</mat-card-title>
 
       <mat-card-content>{{data.message}}</mat-card-content>
       <mat-card-actions>
