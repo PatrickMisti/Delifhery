@@ -32,6 +32,10 @@ export class PackageItem {
   }
 
   sortStatusEntries() {
+    if (!this.data.shipment.statusHistory) return [];
+    if (this.data.shipment.statusHistory.length > 1)
+      return this.data.shipment.statusHistory;
+
     return this.data.shipment.statusHistory
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
   }
