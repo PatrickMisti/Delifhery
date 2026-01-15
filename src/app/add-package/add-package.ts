@@ -192,7 +192,6 @@ export class AddPackage extends Disposabled implements OnDestroy, OnInit {
 
     this._loading.loading();
     const currentForm = this.form.value;
-    console.log('Add package with data:', currentForm);
     const recAddress = currentForm.receiverAddress;
     const packageRes = currentForm.packageForm;
     const notify = currentForm.notification;
