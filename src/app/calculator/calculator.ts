@@ -144,6 +144,7 @@ export class Calculator extends Disposabled implements OnDestroy, OnInit {
       return;
     }
 
+    console.log("Price calculation DTO:", dto);
     this.subSink = this._packageService.calculatePackageCost(dto)
       .subscribe({
         next: (price) => {
@@ -165,11 +166,11 @@ export class Calculator extends Disposabled implements OnDestroy, OnInit {
   private _upsetCalculate() {
     const addr = this._userService.isCurrentUser$().value?.address;
 
-    let zipOrigin = this.ownAddressOrigin.value.zip;
+    let zipOrigin = this.ownAddressOrigin.value.zip?.toString();
     let stateOrigin = this.ownAddressOrigin.value.state;
 
     if (this.useOwnAddressOrigin.value && addr) {
-      zipOrigin = addr.postalCode;
+      zipOrigin = addr.postalCode.toString();
       stateOrigin = addr.country;
     }
 

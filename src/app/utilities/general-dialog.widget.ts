@@ -15,8 +15,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
     <mat-card class="p-16">
       <mat-card-title>{{data.title}}</mat-card-title>
 
-      <mat-card-content>{{data.message}}</mat-card-content>
-      <mat-card-actions>
+      <mat-card-content class="p-8">{{data.message}}</mat-card-content>
+      <mat-card-actions layout-align="end center">
         <button mat-button color="primary" (click)="closeDialog()">OK</button>
       </mat-card-actions>
     </mat-card>
@@ -43,8 +43,8 @@ export class GeneralDialogWidget {
     <mat-card>
       <mat-card-title>{{data.title}}</mat-card-title>
 
-      <mat-card-content>{{data.message}}</mat-card-content>
-      <mat-card-actions>
+      <mat-card-content class="p-8">{{data.message}}</mat-card-content>
+      <mat-card-actions layout-align="end center">
         <button mat-button (click)="closeCancel()">Zurück</button>
         <button mat-button (click)="closeAndOpenInfo()">Info</button>
         <button mat-button color="primary" (click)="closeOk()">OK</button>

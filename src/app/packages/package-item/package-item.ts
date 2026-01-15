@@ -27,6 +27,7 @@ export class PackageItem {
   private _snackbar = inject(MatSnackBar);
 
   closeDialog(): void {
+    console.log("Shipment", this.data.shipment);
     this._dialog.close();
   }
 
