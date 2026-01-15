@@ -55,7 +55,7 @@ export class Packages extends Disposabled implements OnDestroy, OnInit {
   }
 
   getAllShipmentsTogether(shipments: GetAllShipmentsDto | null): Shipment[] {
-    const data = shipments?.sendShipment ?? [];
+    const data = [...shipments?.sendShipment?? []] ;
     data.push(...shipments?.receiveShipment ?? []);
     return data;
   }

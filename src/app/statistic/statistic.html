@@ -2,11 +2,7 @@
   @defer (when isLoading$) {
     @let shipments = isLoading$ | async;
 
-    @if (shipments != null &&
-    shipments?.receiveShipment != null &&
-    shipments?.sendShipment != null &&
-    shipments!.sendShipment.length > 0 &&
-    shipments!.receiveShipment.length > 0) {
+    @if (shipments != null) {
 
     <div class="wrapper gap-16" layout-align="center center">
       <app-statistic-chart
