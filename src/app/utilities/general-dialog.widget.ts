@@ -40,7 +40,7 @@ export class GeneralDialogWidget {
     ...MATERIAL_FORM
   ],
   template: `
-    <mat-card>
+    <mat-card class="p-16">
       <mat-card-title>{{data.title}}</mat-card-title>
 
       <mat-card-content class="p-8">{{data.message}}</mat-card-content>
